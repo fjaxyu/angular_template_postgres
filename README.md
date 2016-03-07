@@ -1,11 +1,11 @@
 # angular-template
-Angular-Template is a ready-to-use system for creating a quick [Angular](https://angularjs.org) application using [Node](https://nodejs.org), [Express](http://expressjs.com), and [MongoDB](https://www.mongodb.org) with an index page all configured to start building with Bootstrap right away.
+Angular-Template is a ready-to-use system for creating a quick [Angular](https://angularjs.org) application using [Node](https://nodejs.org), [Express](http://expressjs.com), and [PostgreSQL](http://www.postgresql.org) with an index page all configured to start building with Bootstrap right away.
 
 
 
 
 ## Quick Start
-Simply download the files and, using terminal, navigate to the folder and use "[npm](https://www.npmjs.com) install" to add all of the necessary node modules and you're good to go. Once that has finished, enter "node server.js" and then using a web browser, navigate to "localhost:3000" and get started!
+Simply download the files and, using terminal, navigate to the folder and use "[npm](https://www.npmjs.com) install" to add all of the necessary node modules and add the URL of your Postgres database to the "newdatabase.js" and "pgDatabase.js" files in the routes folder, and you're good to go. Once that has finished, enter "node server.js" and then using a web browser, navigate to "localhost:3000" and get started!
 
 
 
