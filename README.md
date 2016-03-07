@@ -5,7 +5,7 @@ Angular-Template is a ready-to-use system for creating a quick [Angular](https:/
 
 
 ## Quick Start
-Simply download the files and, using terminal, navigate to the folder and use "[npm](https://www.npmjs.com) install" to add all of the necessary node modules and add the URL of your Postgres database to the "newdatabase.js" and "pgDatabase.js" files in the routes folder, and you're good to go. Once that has finished, enter "node server.js" and then using a web browser, navigate to "localhost:3000" and get started!
+Simply download the files and, using terminal, navigate to the folder and use "[npm](https://www.npmjs.com) install" to add all of the necessary node modules, "bower install", and manually add the URL of your Postgres database to the "newdatabase.js" and "pgDatabase.js" files in the routes folder, and you're good to go. Once that has finished, enter "node server.js" and then using a web browser, navigate to "localhost:3000" and get started!
 
 
 
