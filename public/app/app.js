@@ -19,7 +19,6 @@ var myApp = angular.module('myApp', [
 //    Controllers
     'HomePageController',
     'NavBarController',
-    'RecommendedController',
     
 ////    The last item on the list can't have a comma
     'loginController'
