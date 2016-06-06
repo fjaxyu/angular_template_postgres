@@ -16,6 +16,17 @@ Simply download the files and, using terminal, navigate to the folder and use "[
 
 [JSHint](http://jshint.com) is used to ensure users can enforce coding standards. Two separate files have been used to enforce two types of standards in two sections. To configure these update the .jshintrc and jshintrc3 files. the latter regulates the routes/ folder and the first checks the public/app/ folder.
 
+Create User and Login with a redirect on pages where a user is required to be signed in.
+
+###Admin Portal
+use: "/admin/login" to enter the admin portal. You'll have to create and insert a password into the database using 'Sha1'. bcrypt hasn't been implemented for this feature yet. Hopefully we will implement a create-admin section with an initial user for you to login and update your account information.
+
+####Admin Logs
+Use the admin logs section to create a list of items that you want to work on to improve and develop the application over time.
+
+####Admin Feedback
+Use "/feedback" to let users submit feedback about the application. Currently, users must be logged in in-order to submit feedback. In the admin portal you'll be notified of current feedback to be addressed and you can update and write information about each of the tickets.
+
 
 
 ## Notes
