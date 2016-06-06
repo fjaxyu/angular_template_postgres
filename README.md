@@ -8,9 +8,12 @@ Angular-Template is a ready-to-use system for creating a quick [Angular](https:/
 Simply download the files and, using terminal, navigate to the folder and use "[npm](https://www.npmjs.com) install" to add all of the necessary node modules, then add your postgres database to the pgDatabase.js and newdatabase.js files found in the routes folder, then run "node create.js" (this will create the tables for users, feedback, logs, and admins), and you're good to go. Once that has finished, enter "node server.js" and then using a web browser, navigate to "localhost:3000" and get started!
 
 ##Current Features
-Setup with [Amazon S3](https://aws.amazon.com/s3/) should be fairly easy.
+[Amazon S3](https://aws.amazon.com/s3/) should be fairly easy to set up and store images.
+
 [Bluebird](http://bluebirdjs.com/docs/getting-started.html) promises can be used to create good flows through the routes.
+
 [BCrypt](https://codahale.com/how-to-safely-store-a-password/) has been implemented to store user's passwords. It's an incredibly safe and strong password storage system to prevent anyone from accessing user's private passwords.
+
 [JSHint](http://jshint.com) is used to ensure users can enforce coding standards. Two separate files have been used to enforce two types of standards in two sections. To configure these update the .jshintrc and jshintrc3 files. the latter regulates the routes/ folder and the first checks the public/app/ folder.
 
 
