@@ -1,0 +1,194 @@
+<div class="container background-white extend">
+    <h1 class="CF">Admin Dashboard</h1>
+    <div class="lineBreak"></div>
+
+    <div class="alert alert-success" ng-show="successMessage" role="alert">{{successMessage}}</div>
+    <div class="alert alert-danger" ng-show="errorMessage" role="alert">{{errorMessage}}</div>
+    <div class="alert alert-warning" ng-show="warningMessage" role="alert">{{warningMessage}}</div>
+
+    <a ng-click="adminLogout()" class="btn btn-default right">Logout</a>
+
+    <div class="fullWidth clear">
+        <div class="col-xs-12 col-md-6">
+            <h2><a href="/admin/feedback">Feedback Details</a></h2>
+            <div class="lineBreak"></div>
+
+            <div class="fullWidth">
+                <p>
+                    Total Unfixed: <i>{{feedback.feedback_total_unfixed}}</i>
+                    <br> Total Unfixed (response required): <i>{{feedback.feedback_total_unfixed_with_response}}</i>
+                    <br> Total Unfixed (no response required): <i>{{feedback.feedback_total_unfixed - feedback.feedback_total_unfixed_with_response}}</i>
+                    <br>
+                </p>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Unfixed By Type</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in feedback.feedback_total_unfixed_by_type">
+                            <td>{{item.type}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Users With Most Feedback</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>User</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in feedback.feedback_top_ten">
+                            <td>{{item.user_id}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Feedback Addressed By User</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>User</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in feedback.feedback_total_fixed_by_user">
+                            <td>{{item.admin_id}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-md-6">
+            <h2><a href="/admin/logs">Log Details</a></h2>
+            <div class="lineBreak"></div>
+
+            <div class="fullWidth">
+                <div class="col-xs-6">
+                    <p>
+                        Total Fixed: <i>{{logs.log_total_fixed | number}}</i>
+                        <br> Total Minutes: <i>{{logs.log_total_minutes | number}} ({{logs.log_total_minutes/60 | number:1}} hours)</i>
+                        <br> Average minutes per ticket: <i>{{logs.log_total_minutes/logs.log_total_fixed | number: 2}}</i>
+                        <br>
+                        <br><i>{{logs.log_estimated_minutes[0].sum/60 | number:1}}</i> estimated hours to complete all tickets
+                    </p>
+                </div>
+                <div class="col-xs-6">
+                    <p>
+                        <i>{{logs.log_minute_breakdown[0].hours_per_day | number:1}}</i> hours per day
+                        <br><i>{{logs.log_minute_breakdown[0].hours_per_week | number:1}}</i> hours per week
+                        <br><i>{{logs.log_minute_breakdown[0].hours_per_month | number:1}}</i> hours per month
+                        <br>
+                        <br><i>{{logs.log_estimated_minutes[0].sum/60/logs.log_minute_breakdown[0].hours_per_day | number:1}}</i> estimated days to complete all tickets
+                    </p>
+                </div>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Unfixed By Date</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Due Date</th>
+                            <th>Quantity</th>
+                            <th>Days</th>
+                            <th>Estimated Completion Date</th>
+                            <th>Days Over</th>
+                        </tr>
+                        <tr ng-repeat="item in logs.log_due_date_totals | orderBy:'due_date'">
+                            <td>{{item.due_date | date:'fullDate'}}</td>
+                            <td>{{item.count}}</td>
+                            <td>{{item.estimated_days | number:0}}</td>
+                            <td>{{item.deadline | date:'fullDate'}}</td>
+                            <td>{{item.days_over | number:0}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Total Fixed By User</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr class="text-center">
+                            <th>User</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Total Minutes</th>
+                            <th class="text-center">Total Hours</th>
+                            <th class="text-center">Average</th>
+                        </tr>
+                        <tr ng-repeat="item in logs.log_total_fixed_by_user | orderBy:user">
+                            <td>{{item.user}}</td>
+                            <td class="text-center">{{item.count | number}}</td>
+                            <td class="text-center">{{item.total_minutes | number}}</td>
+                            <td class="text-center">{{item.total_minutes/60 | number:1}}</td>
+                            <td class="text-right">{{item.average | number}} minutes/ticket</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Total Unfixed By Device</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Device</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in logs.log_total_unfixed_by_device | orderBy:'-count'">
+                            <td>{{item.device}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Total Unfixed By Priority</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Priority</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in logs.log_total_unfixed_by_priority | orderBy:'-count'">
+                            <td>{{item.priority}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="fullWidth">
+                <h3>Total Unfixed By Type</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in logs.log_total_unfixed_by_type | orderBy:'-count'">
+                            <td>{{item.type}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

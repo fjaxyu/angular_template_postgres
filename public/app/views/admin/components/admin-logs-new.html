@@ -1,0 +1,163 @@
+<div class="container background-white extend">
+    <div class="fullWidth">
+
+        <h2 class="CFn">New Log</h2>
+
+        <div class="lineBreak"></div>
+        <a href="/admin/logs" class="btn btn-default">Return to Logs</a>
+
+        <br>
+        <br>
+
+        <div class="alert alert-success" ng-show="successMessage" role="alert">{{successMessage}}</div>
+        <div class="alert alert-info" ng-show="infoMessage" role="alert">{{infoMessage}}</div>
+        <div class="alert alert-danger" ng-show="errorMessage" role="alert">{{errorMessage}}</div>
+        <div class="alert alert-warning" ng-show="warningMessage" role="alert">{{warningMessage}}</div>
+
+        <form class="newForm" name="logForm" novalidate>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <h3 class="thinHeader">Log Information</h3>
+                
+                <input ng-disabled='disabled' type='text' class='form-control' placeholder='Group' ng-model='log.group'>
+                <p class="formError" ng-show="groupError">{{groupError}}</p>
+                
+                <input ng-disabled='disabled' type='text' class='form-control' placeholder='Sub-Group' ng-model='log.subgroup'>
+                <p class="formError" ng-show="subGroupError">{{subGroupError}}</p>
+
+                <input ng-disabled="disabled" type="text" class="form-control" placeholder="Title" ng-model="log.public_title">
+                <p class="formError" ng-show="public_titleError">{{public_titleError}}</p>
+                
+                <input ng-disabled="disabled" type="number" step="10" class="form-control" placeholder="Estimated Minutes" ng-model="log.estimated_minutes">
+
+                <input ng-disabled="disabled" type="text" class="form-control" placeholder="Date Found ('MM/DD/YYYY')" ng-model="log.date_found">
+                <p class="formError" ng-show="date_foundError">{{date_foundError}}</p>
+
+                <input ng-disabled="disabled" type="text" class="form-control" placeholder="Date Due ('MM/DD/YYYY')" ng-model="log.date_due">
+
+                <select ng-disabled="disabled" class="form-control" ng-model="log.type">
+                    <option value="" disabled>Type</option>
+                    <option value="bug">Bug</option>
+                    <option value="note">Note</option>
+                    <option value="build">Build</option>
+                    <option value="general">General</option>
+                    <option value="feature">New Feature</option>
+                    <option value="improvement">Improvement</option>
+                    <option value="warning">Warning</option>
+                </select>
+                <p class="formError" ng-show="typeError">{{typeError}}</p>
+
+                <select ng-disabled="disabled" class="form-control" ng-model="log.device">
+                    <option value="" disabled>Device</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="desktop">Desktop</option>
+                    <option value="general">General</option>
+                    <option value="browser">Browser</option>
+                </select>
+                <p class="formError" ng-show="deviceError">{{deviceError}}</p>
+
+                <select ng-disabled="disabled" class="form-control" ng-model="log.priority">
+                    <option value="" disabled>Priority</option>
+                    <option value="high">High</option>
+                    <option value="mid">Medium</option>
+                    <option value="low">Low</option>
+                    <option value="note">Note</option>
+                </select>
+                <p class="formError" ng-show="priorityError">{{priorityError}}</p>
+                
+                <div class="form-group">
+                    <label>Assigned To</label>
+                    <select ng-disabled="disabled" class="form-control" ng-change="assignedChange(assigned_to)" ng-options="o as o.username for o in assignments" ng-model="assigned_to"></select>
+                    <p class="formError" ng-show="assignedError">{{assignedError}}</p>
+                </div>
+
+                <!--================================================================================-->
+                <div class="lineBreak"></div>
+                <!--================================================================================-->
+
+                <h3 class="thinHeader">Comments</h3>
+                <div class="from-group">
+                    <textarea ng-disabled="disabled" class="form-control" ng-model="log.log_message" rows="5" placeholder="Log Message"></textarea>
+                    <p class="formError" ng-show="log_messageError">{{log_messageError}}</p>
+                </div>
+
+                <br>
+
+                <div class="checkbox">
+                    <label>
+                        <input ng-disabled="disabled" type="checkbox" ng-click="checkPublic()" ng-model="log.public"><span class="checkboxFix"> Public Message</span>
+                    </label>
+                </div>
+
+                <div class="from-group">
+                    <textarea ng-disabled="disabled || not_public" class="form-control" ng-model="log.public_message" rows="5" placeholder="Public Message"></textarea>
+                    <p class="formError" ng-show="public_messageError">{{public_messageError}}</p>
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+
+                <h3 class="thinHeader">Additional Information</h3>
+                <div class="checkbox">
+                    <label>
+                        <input ng-disabled="disabled" type="checkbox" ng-click="checkFixed()" ng-model="log.fixed"><span class="checkboxFix"> Fixed</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>Date Fixed</label>
+                    <input ng-disabled="fixedDisabled" type="text" class="form-control" placeholder="Date Fixed ('MM/DD/YYYY')" ng-model="log.date_fixed">
+                    <p class="formError" ng-show="dateFixedError">{{dateFixedError}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Total Minutes</label>
+                    <input ng-disabled="fixedDisabled" type="number" class="form-control" placeholder="Minutes" ng-model="log.minutes">
+                    <p class="formError" ng-show="minutesError">{{minutesError}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Fixed By</label>
+                    <select ng-disabled="fixedDisabled" class="form-control" ng-change="fixedChange(fixed)" ng-options="o as o.username for o in admins" ng-model="fixed"></select>
+                    <p class="formError" ng-show="fixedByError">{{fixedByError}}</p>
+                </div>
+
+                <!--================================================================================-->
+                <div class="lineBreak"></div>
+                <!--================================================================================-->
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Date Created</label>
+                        <input type="text" class="form-control" placeholder="Last Updated" ng-model="log.date_found" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Created By</label>
+                        <input type="text" class="form-control" placeholder="Last Updated" ng-model="log.created_by" readonly>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Last Updated</label>
+                        <input type="text" class="form-control" placeholder="Last Updated" ng-model="log.last_updated" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Updated By</label>
+                        <input type="text" class="form-control" placeholder="Updated By" ng-model="log.updated_by" readonly>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="fullWidth">
+                <br>
+                <br>
+                <button ng-disabled="disabled" ng-click="updateLog(log)" class="btn btn-primary">Create</button>
+                <button ng-disabled="disabled" ng-click="cancelLog()" class="btn btn-warning">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <!--</div>-->

@@ -1,0 +1,60 @@
+<div class="container background-white extend">
+    <br>
+    <br>
+    <br>
+
+    <form class="loginForm" ng-submit="login(user, keepLoggedIn)">
+
+        <div class="col-xs-12 card">
+            <div class="card_padding">
+
+                <div class="alert alert-danger" role="alert" ng-show="error.userMessage">
+                    <strong>Login!</strong> You'll need to log in to access that page.
+                </div>
+
+                <div class="alert alert-info" ng-show="infoMessage">{{infoMessage}}</div>
+                <div class="alert alert-danger" ng-show="dangerMessage">{{dangerMessage}}</div>
+                <div class="alert alert-warning" ng-show="warningMessage">{{warningMessage}}</div>
+                <div class="alert alert-success" ng-show="successMessage">{{successMessage}}</div>
+
+                <h1 class="CF">Login</h1>
+                <div class="lineBreak"></div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input ng-disabled="disabled" type="text" ng-model="user.email" placeholder="Email" class="form-control" ng-init="">
+                    <p class="formError" ng-show="emailError">{{emailError}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input ng-disabled="disabled" type="password" ng-model="user.password" placeholder="Password" class="form-control" ng-init="">
+                    <p class="formError" ng-show="passwordError">{{passwordError}}</p>
+                    <p class="formError" ng-show="attemptsError">Have you forgotten your password? <a href='/forgot'>Reset Password here</a></p>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="keepLoggedIn" ng-disabled="disabled"> Keep me logged in
+                    </label>
+                </div>
+
+                <button ng-disabled="disabled" type="submit" class="btn btn-default">Login</button>
+
+                <br>
+                <br>
+
+                <a href="/forgot">Forgot Password?</a>
+                <br>
+                <a href="/signup">Go to Sign Up!</a>
+            </div>
+            <div class="card_accent defaultBackground"></div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.defaultBackground').css('background', window.defaultColor);
+    })
+</script>

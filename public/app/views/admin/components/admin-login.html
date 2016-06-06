@@ -1,0 +1,27 @@
+<div class="container background-white extend">
+    <h1 class="CF">Admin Login</h1>
+    <div class="lineBreak"></div>
+
+    <div class="alert alert-success" ng-show="successMessage" role="alert">{{successMessage}}</div>
+    <div class="alert alert-danger" ng-show="errorMessage" role="alert">{{errorMessage}}</div>
+    <div class="alert alert-warning" ng-show="warningMessage" role="alert">{{warningMessage}}</div>
+
+    <form ng-submit="adminLogin(user)">
+
+        <label for="username">Username</label>
+        <input ng-disabled="disabled" name="username" ng-model="user.username" class="form-control" type="text">
+
+        <br>
+
+        <label for="password">Password</label>
+        <input ng-disabled="disabled" name="password" ng-model="user.password" class="form-control" type="password">
+
+        <br>
+
+        <button ng-disabled="disabled" class="btn btn-default">Login</button>
+
+        <br><br>
+
+    </form>
+</div>
+

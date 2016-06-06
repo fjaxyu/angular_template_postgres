@@ -1,0 +1,239 @@
+<div class="container background-white extend" ng-show="state === 'update'">
+    <div class="col-xs-6 col-xs-offset-3">
+        <br>
+        <br>
+        <h2 class="CF text-center">{{message.title}}</h2>
+        <div class="lineBreak"></div>
+        <div class="col-md-2 col-md-offset-5">
+            <img class="img-responsive" src="/app/assets/images/loading.gif">
+        </div>
+
+        <p class="text-center clear italic">
+            <br>{{message.message}}</p>
+        <p class="text-center clear italic">
+            <br>{{message.subMessage}}</p>
+    </div>
+</div>
+
+<div class="container background-white extend" ng-show="state === 'dashboard'">
+
+    <h1 class="CF">Payments</h1>
+
+    <div class="lineBreak"></div>
+
+    <uib-accordion close-others="status.oneAtATime">
+        <uib-accordion-group heading="Select Gallery" is-open="status.gallery">
+
+            <div class="fullWidth">
+
+                <h3>Galleries with Outstanding Balances</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th><a ng-click="sort('name', 'gallery')">Name</a></th>
+                            <th><a ng-click="sort('quantities.total_outstanding', 'gallery')">Total Outstanding</a></th>
+                            <th><a ng-click="sort('gallery_details.total_due', 'gallery')">Total Due</a></th>
+                        </tr>
+                        <tr ng-repeat="gallery in galleries | orderBy:predicate.gallery:reverse.gallery" ng-show="gallery.show" ng-click="selectGallery(gallery)">
+                            <td>{{gallery.name}}</td>
+                            <td>{{gallery.quantities.total_outstanding | number:0}}</td>
+                            <td>{{gallery.gallery_details.total_due | currency:USD}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </uib-accordion-group>
+
+        
+        <uib-accordion-group heading="Payment Details" is-open="status.payment_details" is-disabled="selectedItems.gallery == null">
+
+            <div class="fullWidth">
+                
+                <h3>Selected Gallery</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td>Name: {{selectedItems.gallery.name}}</td>
+                            <td>Outstanding Products: {{selectedItems.gallery.quantities.total_outstanding | number:0}}</td>
+                            <td>Amount Due: {{selectedItems.gallery.gallery_details.total_due | currency:USD}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <form novalidate>
+                    <h4>Add Received Payment</h4>
+                    
+                    <div class="form-group">
+                        <label>Payment Date</label>
+                        <p class="input-group">
+                            <input type="text" class="form-control" ng-model="newPayment.timeline_date" placeholder="Payment Date" uib-datepicker-popup="{{format}}" is-open="calendar.opened.payment" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" placeholder="Payment Date" readonly/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="calendar.open($event, 'payment')">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
+                        <p class="help-block">Use the button on the right to select a date.</p>
+                        <p class="formError" ng-show="paymentDateError">{{paymentDateError}}</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Amount</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="number" class="form-control" placeholder="Payment Amount" ng-model="newPayment.value" allow-pattern="numeric">
+                        </div>
+                        <p class="formError" ng-show="paymentValueError">{{paymentValueError}}</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Type</label>
+                        <input type="text" class="form-control" ng-model="newPayment.value_type" placeholder="Check, Cash, etc">
+                        <p class="formError" ng-show="paymentTypeError">{{paymentTypeError}}</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" class="form-control" ng-model="newPayment.timeline_description" placeholder="Description (check number, reference number, received on, etc)">
+                        <p class="formError" ng-show="paymentDescriptionError">{{paymentDescriptionError}}</p>
+                    </div>
+
+                    <a ng-click="addPayment(newPayment)" class="btn btn-success right">{{paymentButton}}</a>
+                </form>
+
+            </div>
+
+        </uib-accordion-group>
+
+        
+        <uib-accordion-group heading="Select Products" is-open="status.products" is-disabled="selectedItems.payment_details == null">
+            
+            <div class="fullWidth">
+                
+                <h3>Add Products</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th><a ng-click="sort('product_name', 'product')">Name</a></th>
+                            <th><a ng-click="sort('price_sold', 'product')">Price Sold</a></th>
+                            <th><a ng-click="sort('commission_artist', 'product')">Commission Artist</a></th>
+                            <th><a ng-click="sort('total_paid', 'product')">Total Paid</a></th>
+                            <th><a ng-click="sort('total_due', 'product')">Total Due</a></th>
+                        </tr>
+                        <tr ng-repeat="product in products | orderBy:predicate.product:reverse.product" ng-show="product.show" ng-click="addProduct(product, $index)">
+                            <td>{{product.product_name}}</td>
+                            <td>{{product.price_sold | currency:USD}}</td>
+                            <td>{{product.commission_artist | currency:USD}}</td>
+                            <td>{{product.total_paid | currency:USD}}</td>
+                            <td>{{product.total_due | currency:USD}}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h3>Selected Products</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th><a ng-click="sort('product_name', 'product')">Name</a></th>
+                            <th><a ng-click="sort('price_sold', 'product')">Price Sold</a></th>
+                            <th><a ng-click="sort('commission_artist', 'product')">Commission Artist</a></th>
+                            <th><a ng-click="sort('total_paid', 'product')">Total Paid</a></th>
+                            <th><a ng-click="sort('total_due', 'product')">Total Due</a> <small>(balance)</small></th>
+                        </tr>
+                        <tr ng-repeat="product in selectedItems.products | orderBy:predicate.product:reverse.product" ng-show="product.show" ng-click="removeProduct(product, $index)">
+                            <td>{{product.product_name}}</td>
+                            <td>{{product.price_sold | currency:USD}}</td>
+                            <td>{{product.commission_artist | currency:USD}}</td>
+                            <td>{{product.total_paid | currency:USD}}</td>
+                            <td>{{product.total_due | currency:USD}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>{{selectedTotal | currency:USD}} <small>({{selectedTotal - selectedItems.payment_details.value | currency:USD}})</small></b></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="fullWidth">
+                <button class="btn btn-success right" ng-disabled="selectedItems.products.length === 0" ng-click="moveToAllocation()">Continue</button>
+            </div>
+            
+        </uib-accordion-group>
+
+        
+        <uib-accordion-group heading="Allocation" is-open="status.allocation" is-disabled="selectedItems.products.length === 0">
+            
+            <div class="fullWidth">
+                
+                <h3>Selected Gallery</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td>Name: <i>{{selectedItems.gallery.name}}</i></td>
+                            <td>Outstanding Products: <i>{{selectedItems.gallery.quantities.total_outstanding | number:0}}</i></td>
+                            <td>Current Outstanding Balance: <i>{{selectedItems.gallery.gallery_details.total_due | currency:USD}}</i></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h3>Payment Details</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td>Type: <i>{{selectedItems.payment_details.value_type}}</i></td>
+                            <td>Date: <i>{{selectedItems.payment_details.timeline_date | date:'fullDate'}}</i></td>
+                            <td>Description: <i>{{selectedItems.payment_details.timeline_description}}</i></td>
+                            <td>Value: <i>{{selectedItems.payment_details.value | currency:USD}}</i></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h3>Selected Products</h3>
+                
+                <button type='button' class="btn btn-default" ng-click="allocatePayments('full')">Full Allocation</button>
+                <button type='button' class="btn btn-default" ng-click="allocatePayments('percentage')">Percentage of Total</button>
+                
+                <br><br>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th><a ng-click="sort('product_name', 'product')">Name</a></th>
+                            <th><a ng-click="sort('total_due', 'product')">Total Due</a></th>
+                            <th><a ng-click="sort('payment.value', 'product')">Payment Value</a></th>
+                            <th><a ng-click="sort('-payment.value', 'product')">Remaining Balance</a></th>
+                            <th class="text-center">Discount Remaining Amount</th>
+                        </tr>
+                        <tr ng-repeat="product in selectedItems.products | orderBy:predicate.product:reverse.product" ng-show="product.show">
+                            <td>{{product.product_name}}</td>
+                            <td>{{product.total_due | currency:USD}}</td>
+                            <td><input type='number' ng-model="product.payment.value" ng-change="allocatePayments('none')"></td>
+                            <td>{{product.total_due - product.payment.value | currency:USD}} <span ng-show="(product.total_due - product.payment.value) < 0">Gallery Over Paid</span></td>
+                            <td class="text-center"><button class="btn" ng-class="{ 'btn-success': product.payment.discount, 'btn-danger': !product.payment.discount}" ng-show="(product.total_due - product.payment.value) > 0" ng-click="product.payment.discount = !product.payment.discount"></button></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td><b>{{selectedTotal | currency:USD}}</b></td>
+                            <td><b ng-show="selectedPayment != selectedItems.payment_details.value" style="color: #ac0000">{{selectedPayment}} ({{selectedItems.payment_details.value - selectedPayment | currency:USD}})</b><b ng-show="selectedPayment == selectedItems.payment_details.value">{{selectedPayment | currency:USD}}</b></td>
+                            <td><b>{{selectedTotal - selectedPayment | currency:USD}}</b></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    
+                    <br><br>
+                    
+                    <button ng-click="completePayments()" class="btn btn-success right">Finish and Process Payment</button>
+                    
+                </div>
+            </div>
+            
+        </uib-accordion-group>
+
+    </uib-accordion>
+
+</div>

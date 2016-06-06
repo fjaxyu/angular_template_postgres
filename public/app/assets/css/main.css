@@ -1,0 +1,403 @@
+.table-hover {
+    cursor: pointer;
+}
+
+.thinHeader {
+    font-weight: 300;
+}
+
+.lineBreak {
+    height: 1px;
+    background: #ccc;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.fullWidth {
+    width: 100%;
+    margin: none;
+    padding: none;
+    clear: both;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.text-color-darkGray {
+    color: #444;
+}
+
+.clear {
+    clear: both;
+}
+
+.staticMessage {
+    position: fixed;
+}
+
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar {
+    /*    http://www.colourlovers.com/palette/1930/cheer_up_emo_kid*/
+    /*    background-color: white;*/
+    /*    background-color: #f7f7f7;*/
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7fbfe2+1,7fbfe2+22,e7e8c9+70,7fbfe2+81,7fbfe2+100 */
+    /*    background: #7fbfe2; */
+    border-radius: 0px;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+.container-fluid {
+    /*    border-bottom: 1px solid #ccc;*/
+    /*    border-bottom: 1px solid #6d9cb7;*/
+}
+
+#footer {
+        height: 60px;
+    /*    background-color: hsl(210, 70%, 55%);*/
+    margin-bottom: 0px;
+}
+
+.navbar-header button {
+    /*    color: #2A363B;*/
+    color: #fff;
+}
+
+.icon-bar {
+    /*    background: #556270;*/
+    background: #fff;
+}
+
+.navbar li a,
+.navbar a,
+.nav.navbar-nav.navbar-right li a,
+.navbar-brand {
+    /*    color: white;*/
+    color: #fff;
+}
+
+.navbar li a:hover,
+.nav.navbar-nav.navbar-right li a:hover,
+.navbar-brand:hover {
+    /*    color: #F2F2F2;*/
+    color: #ddd;
+    background: inherit;
+    /*    background-color: #285BA3;*/
+    /*    background-color: #EEE;*/
+}
+
+.navbar li a:active,
+.nav.navbar-nav.navbar-right li a:active,
+.navbar-brand:active {
+    /*    color: #E5E5E5;*/
+    color: #bbb;
+    /*    background-color: #1E447A;*/
+    /*    background-color: #DDD;*/
+}
+
+.background {
+    /*    background-color: #F2F2F2;*/
+    /*    background-color: rgb(250, 250, 250);*/
+    /*    background-color: #F1F1F1;*/
+    background-color: white;
+    height: 100%;
+    margin-top: 0px;
+}
+
+.background-white {
+    background-color: #fff;
+    /*    color: #556270;*/
+}
+
+.extend {
+    /*    height: 100%;*/
+    display: block;
+    min-height: 100%;
+}
+
+html {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    -webkit-font-smoothing: antialiased;
+    color: #333;
+    /*    color: green;*/
+}
+
+.landscape-image {
+    height: auto;
+    max-height: 95%;
+    width: 95%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.portrait-image {
+    height: 95%;
+    width: auto;
+    max-width: 95%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.verticalCenterDiv {
+    white-space: nowrap;
+    text-align: center;
+    margin: 1em 0;
+}
+
+.font-color-gray {
+    color: #777;
+}
+
+.minHeight {
+    /*    min-height: 100%;*/
+    /*    max-height: 450px;*/
+    height: 500px;
+    object-fit: cover;
+    /*    height: 100%;*/
+    width: auto;
+    overflow: hidden;
+}
+
+footer {
+    height: 60px;
+    position: absolute;
+    bottom: 0px;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto;
+    /* Negative indent footer by its height */
+    margin: 0 auto -60px;
+    /* Pad bottom by footer height */
+    padding: 0 0 60px;
+}
+
+@media (max-width: 600px) {
+    .display-1 {
+        font-size: 6em;
+        /*        color: blue;*/
+    }
+}
+
+@media (min-width: 601px) {
+    .display-1 {
+        font-size: 10em;
+    }
+}
+
+.loginHomePage {
+    color: #fff;
+    font-size: 1.25em;
+    font-weight: 400;
+    display: block;
+    position: absolute;
+    right: 50px;
+    top: 25px;
+    z-index: 10;
+    text-shadow: 2px 2px 8px #aaa;
+    text-decoration: none;
+}
+
+.loginHomePage:hover {
+    color: #fff;
+    text-shadow: 4px 4px 16px black;
+    text-decoration: none;
+}
+
+.loginHomePage:active {
+    color: #fff;
+    text-decoration: none;
+}
+
+.no-margin {
+    margin: 0;
+    display: inline-block;
+}
+
+.footer-text {
+    text-align: center;
+    line-height: 60px;
+    color: white;
+    /*    margin-bottom: -15px;*/
+    margin-bottom: 0px;
+    font-size: 1.1em;
+}
+
+.card {
+    -webkit-box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.3);
+    background: clear;
+    padding: 0px;
+}
+
+.small {
+    height: 200px;
+    width: 100%;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+/*Custom Fonts*/
+.CF {
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+}
+
+.CFn {
+    font-family: "Raleway", sans-serif;
+}
+
+/*Add this to the P tags that are hidden while the form is valid*/
+.formError {
+    color: #aa0000;
+}
+
+.background-gray {
+    /*    background: #fafafa;*/
+    background: #fafafa;
+}
+
+.text-gray {
+    color: #2A363B;
+}
+
+.text-light-gray {
+    color: #394950;
+}
+
+.hideOpacity {
+    -webkit-transition: opacity 300ms ease-in-out;
+    -moz-transition: opacity 300ms ease-in-out;
+    -ms-transition: opacity 300ms ease-in-out;
+    -o-transition: opacity 300ms ease-in-out;
+    opacity: 0;
+}
+
+.fadeIn {
+    -webkit-transition: opacity 300ms ease-in-out;
+    -moz-transition: opacity 300ms ease-in-out;
+    -ms-transition: opacity 300ms ease-in-out;
+    -o-transition: opacity 300ms ease-in-out;
+    opacity: 1;
+}
+
+.colored_link {
+    font-weight: 500;
+    /*    text-decoration: underline;*/
+    color: #ddd
+}
+
+.colored_link:hover {
+    color: #eee
+}
+
+.colored_link:active {
+    color: #fff
+}
+
+.navbarInfo {
+    background: white;
+    border-radius: 5px;
+    /*    border: 5px solid #ddd;*/
+    padding: 15px;
+    margin-top: 60px;
+    -webkit-box-shadow: 13px 13px 33px -4px rgba(0, 0, 0, .4);
+    -moz-box-shadow: 13px 13px 33px -4px rgba(0, 0, 0, .4);
+    box-shadow: 13px 13px 33px -4px rgba(0, 0, 0, .4);
+}
+
+.card_top {
+    width: 100%;
+    height: 250px;
+    background: #fafafa;
+    /*    border: #ccc solid 1px;*/
+}
+
+.card_bottom {
+    width: 100%;
+    height: 150px;
+    color: white;
+    font-weight: 500;
+}
+
+.card_bottom h2 {
+    font-size: 1.75em;
+}
+
+.card-red {
+    background: hsl(0, 52%, 51%);
+}
+
+.card-blue {
+    background-color: hsl(208, 59%, 40%);
+}
+
+.card-mint {
+    background-color: hsl(164, 57%, 42%);
+}
+
+.card-purple {
+    background-color: hsl(261, 40%, 49%);
+}
+
+.card-green {
+    background-color: hsl(136, 39%, 51%);
+}
+
+.card-outer {
+    min-height: 400px;
+    padding: 20px;
+    background: clear;
+}
+
+.card-outer-standard {
+    min-height: 250px;
+    padding: 20px;
+    background: clear;
+}
+
+.card_padding {
+    /*    min-height: 400px;*/
+    padding: 50px;
+    background: clear;
+}
+
+.card_padding_small {
+    /*    min-height: 400px;*/
+    padding: 15px;
+    background: clear;
+}
+
+.card_accent {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    height: 10px;
+}

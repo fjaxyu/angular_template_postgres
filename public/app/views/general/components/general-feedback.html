@@ -1,0 +1,62 @@
+<loading-template></loading-template>
+
+<div class="container background-white extend" ng-show="state === 'dashboard'">
+    <h1 class="CF">Feedback</h1>
+    <div class="lineBreak"></div>
+
+
+    <p class="lead">We're constantly looking for ways to improve your experience with Rally Stats. Please send us a message here with comments, problems, questions, or feature requests! We appreciate you effort to help make Rally Stats more enjoyable for all.</p>
+
+    <div class="alert alert-danger" ng-hide="!errorMessage">{{errorMessage}}</div>
+    <div class="alert alert-success" ng-hide="!successMessage">{{successMessage}}</div>
+
+    <form class="newForm" name="feedbackForm" novalidate>
+
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10 center float_none">
+            <h3 class="thinHeader">User Information</h3>
+            <input ng-disabled="disabled" type="text" class="form-control" placeholder="Name" ng-model="user.user_name">
+            <p class="formError" ng-show="nameError">{{nameError}}</p>
+
+            <input ng-disabled="disabled" type="text" class="form-control" placeholder="Email" ng-model="user.user_email">
+            <p class="formError" ng-show="emailError">{{emailError}}</p>
+
+            <div class="checkbox">
+                <label>
+                    <input ng-disabled="disabled" type="checkbox" ng-model="user.user_wants_response"><span class="checkboxFix"> I would like a response</span>
+                </label>
+            </div>
+
+            <br>
+
+            <h3 class="thinHeader">Feedback Information</h3>
+
+            <select ng-disabled="disabled" class="form-control" ng-model="user.type">
+                <option value="" disabled>Feedback Type (required)</option>
+                <option value="comment">Comment</option>
+                <option value="error">Problem/Complaint</option>
+                <option value="feature_request">Feature Request</option>
+                <option value="question">Question</option>
+            </select>
+            <p class="formError" ng-show="typeError">{{typeError}}</p>
+
+            <br>
+
+            <textarea ng-disabled="disabled" class="form-control" ng-model="user.message" rows="5" placeholder="Your message"></textarea>
+            <p class="formError" ng-show="messageError">{{messageError}}</p>
+
+            <br>
+            <br>
+            <button ng-disabled="disabled" ng-click="newFeedback(user)" class="btn btn-primary">Submit Feedback</button>
+            <br>
+            <br>
+        </div>
+    </form>
+</div>
+
+<div class="fullWidth" ng-show="state === 'completed'">
+    <div class="col-xs-6 col-xs-offset-3">
+        <h1 class="CF">Success!</h1>
+        <div class="lineBreak"></div>
+        <p class="lead">Your feedback has been successfully submitted. Click <a href="/dashboard">here</a> to return to the dashboard</p>
+    </div>
+</div>

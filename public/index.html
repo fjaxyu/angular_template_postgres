@@ -1,68 +1,159 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
+
 <head>
 
     <base href="/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="msapplication-tap-highlight" content="no"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    
-<!--    Jquery-->
+    <title ng-bind="pageTitle">My App</title>
+
+    <!--    Jquery-->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-    
-<!--    Bootstrap CSS and JS-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!--    Animate-->
+    <link rel="stylesheet" href="app/assets/css/animate.css">
 
 
-<!--    Angular-->
+    <!--    Angular-->
     <script src="/app/bower_components/angular/angular.js"></script>
+    <script src="/app/bower_components/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="/app/js/angular-route/angular-route.js"></script>
     <script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script>
-    
-    
-    <title ng-bind="pageTitle">My App</title>
-    
-    
-<!--    My CSS-->
+
+    <!--    My CSS-->
     <link rel="stylesheet" href="app/assets/css/main.css">
-    
-<!--    My Angular App and My Routes-->
+    <link rel="stylesheet" href="app/assets/css/lightbox.css">
+
+    <!--    My Angular App and My Routes-->
     <script type="text/javascript" src="/app/app.js"></script>
 
-<!--    My Services-->
-    <script type="Text/javascript" src="/app/services/User.js"></script>
+    <!--  CHARTING -->
+    <script src="app/bower_components/d3/d3.js"></script>
+    <script src="app/bower_components/nvd3/build/nv.d3.js"></script>
 
-<!--    My Directives -->
-    <script type="Text/javascript" src="/app/general/Directives.js"></script>
+    <!-- or use another assembly -->
+    <script src="app/bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+    <link rel="stylesheet" href="app/bower_components/nvd3/build/nv.d3.css">
+
+    <!-- Modules -->
+    <script type="Text/javascript" src="/app/modules/UserModule.js"></script>
+    <script type="Text/javascript" src="/app/modules/GeneralModule.js"></script>
+    <script type="Text/javascript" src="/app/modules/UtilityModule.js"></script>
+    <script type="Text/javascript" src="/app/modules/UtilityDirectives.js"></script>
+    <script type="Text/javascript" src="/app/modules/AdminModule.js"></script>
+
+
+
+    <!--    My Services-->
+    <script type="Text/javascript" src="/app/services/UserService.js"></script>
+    <script type="Text/javascript" src="/app/services/AdminService.js"></script>
+    <script type="Text/javascript" src="/app/services/UtilityService.js"></script>
+    <script type="Text/javascript" src="/app/images/js/Images.js"></script>
+
+
+
+    <!--    My Directives -->
+    <script type="Text/javascript" src="/app/js/directives.js"></script>
+    <script type="Text/javascript" src="/app/directives/myDirectives.js"></script>
+
     <script type="Text/javascript" src="/app/js/angular-bootstrap-lightbox.min.js"></script>
-    <script src="/app/js/ui-bootstrap-tpls-0.14.3.js"></script>
+    <script type="Text/javascript" src="/app/js/moment.js"></script>
+    <script type="Text/javascript" src="/app/js/myScript.js"></script>
 
-<!--    My Controllers-->
-    <script type="Text/javascript" src="/app/users/loginController.js"></script>
-    <script type="Text/javascript" src="/app/general/HomeController.js"></script>
-    <script type="Text/javascript" src="/app/general/NavBarController.js"></script>
-    
-    
 
-    
+
+    <!--    My Controllers-->
+    <!--        USER CONTROLLERS-->
+    <script type="Text/javascript" src="/app/views/users/js/loginController.js"></script>
+    <script type="Text/javascript" src="/app/views/users/js/DashboardController.js"></script>
+    <script type="Text/javascript" src="/app/views/users/js/PasswordRecoveryController.js"></script>
+
+
+    <!--        GENERAL CONTROLLERS-->
+    <script type="Text/javascript" src="/app/views/general/js/HomeController.js"></script>
+    <script type="Text/javascript" src="/app/views/general/js/NavBarController.js"></script>
+    <script type="Text/javascript" src="/app/views/general/js/FeedbackController.js"></script>
+
+
+    <!--        UTILITIES CONTROLLERS-->
+    <script type="Text/javascript" src="/app/views/general/js/SettingsController.js"></script>
+
+
+    <!--        ADMIN CONTROLLER-->
+    <script type="Text/javascript" src="/app/views/admin/js/AdminLoginController.js"></script>
+    <script type="Text/javascript" src="/app/views/admin/js/AdminDashboardController.js"></script>
+    <script type="Text/javascript" src="/app/views/admin/js/AdminLogsController.js"></script>
+    <script type="Text/javascript" src="/app/views/admin/js/AdminEditLogsController.js"></script>
+    <script type="Text/javascript" src="/app/views/admin/js/AdminNewLogsController.js"></script>
+    <script type="Text/javascript" src="/app/views/admin/js/AdminNewLogsController.js"></script>
+    <script type="Text/javascript" src="/app/views/admin/js/AdminFeedbackController.js"></script>
+    <script type="Text/javascript" src="/app/views/admin/js/AdminFeedbackSingleController.js"></script>
+
+
+
+    <!--    ngTable-->
+    <script src="app/bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <link rel='stylesheet' href='http://cdn.jsdelivr.net/animatecss/2.1.0/animate.min.css' type='text/css'>
+
+    <!--    Angular UI-->
+    <script src="app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/app/bower_components/moment/src/moment.js"></script>
+
+    <!-- Google Analytics -->
+    <!--    <script src="/app/bower_components/angular-google-analytics/dist/angular-google-analytics.js"></script>-->
+
 </head>
 
-<body>
-    
-    <h1>My App Header</h1>
+<body class="background">
+    <nav class="navbar navbar-red" ng-hide="hideNavbar" ng-controller="NavBarController">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="CFn weight800 navbar-brand" id="myNavbar" href="#" ng-click="dashboard()">My App</a>
+            </div>
+            <div class="collapse navbar-collapse CFn">
+                <ul ng-hide="hideNav" class="nav navbar-nav weight800">
+<!--                    <li ng-hide="hideNav"><a ng-href="/">Navbar Item</a></li>-->
+                </ul>
+                
+                <ul class="nav navbar-nav navbar-right weight800">
+                    <li ng-hide="hideNav"><a ng-href="/settings">Settings</a></li>
+                    <li><a ng-click="logout()">{{loginLogout}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <div class="container" ng-view></div>
-    
-    
-    
-<script>
-    
-</script>    
+
+    <div id="wrap">
+        <div class="" ng-view></div>
+    </div>
+
+    <div id="footer" class="navbar-red">
+        <div class="container">
+
+        </div>
+    </div>
+
+
+    <script></script>
 
 </body>
+
 </html>

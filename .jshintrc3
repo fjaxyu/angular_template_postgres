@@ -1,0 +1,35 @@
+{
+    // JSHint Default Configuration File (as on JSHint website)
+    // See http://jshint.com/docs/ for more details
+
+    "maxerr"        : 15,       // {int} Maximum error before stopping
+
+    "curly"         : true,     // true: Require {} for every new block or scope
+    "asi"           : false,
+    "strict"        : false,
+    "jquery"        : true,
+    "node"          : true,
+    "eqeqeq"        : false,
+    "sub"           : false,
+    "loopfunc"      : true,
+    "plusplus"      : false,
+    "noempty"       : true,     // true: Prohibit use of empty blocks
+    "nocomma"       : false,
+    "notypeof"      : true,
+    "undef"         : true,
+    "eqnull"        : true,
+    "boss"          : false,
+    "lastsemic"     : true,
+    "undef"         : true,
+    "predef"        : [
+        "angular",
+        "d3",
+        "FileReader",
+        "$files",
+        "$",
+        "FormData",
+        "confirm",
+        "Feedback",
+        "retToJSONString"
+    ]
+}

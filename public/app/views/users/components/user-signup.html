@@ -1,0 +1,71 @@
+<div class="container background-white extend">
+    <br>
+    <br>
+    <div class="card">
+        <div class="card_padding">
+            <h1 class="CF">Sign up</h1>
+            <div class="lineBreak"></div>
+
+            <a href="/" class="btn btn-default">Return to home page</a>
+
+            <br>
+            <br>
+
+            <div class="alert alert-danger" ng-show="dangerMessage">{{dangerMessage}}</div>
+
+            <div class="row">
+                <form class="loginForm" ng-submit="" name="user">
+                    <div class="col-xs-12 col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input ng-disabled="disabled" type="text" ng-model="new.name" placeholder="Full Name" class="form-control">
+                            <p class="formError" ng-show="nameError">{{nameError}}</p>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input ng-disabled="disabled" type="text" ng-model="new.email" placeholder="Email" class="form-control">
+                            <p class="formError" ng-show="emailError">{{emailError}}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Confirm Email</label>
+                            <input ng-disabled="disabled" type="text" ng-model="confirm.email" placeholder="Confirm Email" class="form-control">
+                            <p class="formError" ng-show="confirmEmailError">{{confirmEmailError}}</p>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input ng-disabled="disabled" type="password" ng-model="new.password" placeholder="Password" class="form-control">
+                            <p class="formError" ng-show="passwordError">{{passwordError}}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input ng-disabled="disabled" type="password" ng-model="confirm.password" placeholder="Confirm Password" class="form-control">
+                            <p class="formError" ng-show="confirmPasswordError">{{confirmPasswordError}}</p>
+                        </div>
+
+                        <br>
+
+                        <button type="button" ng-click="signup(new)" class="btn btn-primary right">Sign up!</button>
+                        <div class="clear">
+                            <p class="help-block right">Or <a href="/login">click here to login</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card_accent defaultBackground"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.defaultBackground').css('background', window.defaultColor);
+    })
+</script>

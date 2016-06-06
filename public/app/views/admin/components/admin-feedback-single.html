@@ -1,0 +1,67 @@
+<div class="container background-white extend">
+    <div class="fullWidth">
+
+        <h2 class="CFn">Feedback Single</h2>
+
+        <div class="lineBreak"></div>
+        <a href="/admin/feedback" class="btn btn-default">Return to Logs</a>
+
+        <div class="alert alert-success" ng-show="successMessage" role="alert">{{successMessage}}</div>
+        <div class="alert alert-info" ng-show="infoMessage" role="alert">{{infoMessage}}</div>
+        <div class="alert alert-danger" ng-show="errorMessage" role="alert">{{errorMessage}}</div>
+        <div class="alert alert-warning" ng-show="warningMessage" role="alert">{{warningMessage}}</div>
+
+        <br>
+        <br>
+
+        <div class="fullWidth">
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <label>Admin Comment</label>
+                    <textarea ng-disabled="disabled" class="form-control" ng-model="feedback.admin_comment" rows="5" placeholder="Comments"></textarea>
+                    <p class="formError" ng-show="log_messageError">{{log_messageError}}</p>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input ng-disabled="disabled" type="checkbox" ng-click="fixedFeedback()" ng-model="feedback.fixed"><span class="checkboxFix"> Feedback addressed/fixed</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>Fixed By</label>
+                    <select ng-disabled="fixedDisabled" class="form-control" ng-change="adminChange(fixed_by)" ng-options="o as o.username for o in admins" ng-model="fixed_by"></select>
+                    <p class="formError" ng-show="fixedByError">{{fixedByError}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Date Fixed</label>
+                    <input ng-disabled="fixedDisabled" type="text" class="form-control" placeholder="Date Fixed ('MM/DD/YYYY')" ng-model="feedback.fixed_date">
+                    <p class="formError" ng-show="fixedDateError">{{fixedDateError}}</p>
+                </div>
+                
+                <div class="clear">
+                    <button type='button' class="btn btn-success" ng-click="saveChanges()">Save Changes</button>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-md-6 card card_padding_small">
+                <h3>Date: <i>{{feedback.message_date | date:'mediumDate':"UTC"}}</i></h3>
+                <h3></h3>
+                <p>
+                    ID: {{feedback.feedback_id}}
+                    <br> Wants Response: <i>{{feedback.user_wants_response}}</i>
+                    <br> Type: <i>{{feedback.type}}</i>
+                    <br> Name: <i>{{feedback.user_name}}</i>
+                    <br> Email: <i>{{feedback.user_email}}</i>
+                    <br>
+                </p>
+                <p>Message: "{{feedback.message}}"</p>
+            </div>
+        </div>
+
+
+
+
+    </div>
