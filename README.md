@@ -60,3 +60,6 @@ This is where your static page will load the new information for each new link. 
 
 #### Utilities Service
 Check the UtilitiesService.js file to find some functions that may help in reducing the number of re-useable functions found through the app.
+
+#### myScript.js
+Another quick note, myScript.js contains functions that automatically resize the height of the wrapper inside the index page to keep the footer at the bottom and also contains a function to update the colors of the navbar.
