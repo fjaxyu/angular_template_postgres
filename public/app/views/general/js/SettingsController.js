@@ -4,7 +4,7 @@
 
             UtilityService.state('update', 'Loading Settings');
 
-            UtilityService.setPage('Art Lineup - Settings', true).then(function (response) {
+            UtilityService.setPage('Settings', true).then(function (response) {
                 $scope.user = UserService.get();
                 UtilityService.finishLoading('dashboard');
             });

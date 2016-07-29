@@ -2,7 +2,7 @@
     angular
         .module('admin').controller('AdminLoginController', function ($scope, $location, $window, $sessionStorage, $rootScope, AdminService) {
 
-            $rootScope.pageTitle = 'Art Lineup - Admin Login';
+            $rootScope.pageTitle = 'Admin Login';
             console.log('Admin Login Page Controller');
         
             if($sessionStorage.admin){

@@ -2,7 +2,7 @@
     angular
         .module('admin').controller('AdminNewLogsController', function ($scope, $routeParams, UtilityService, $q, $location, $rootScope, AdminService, UserService) {
 
-            $rootScope.pageTitle = 'Art Lineup - Admin Logs New';
+            $rootScope.pageTitle = 'Admin Logs New';
             console.log('Admin Dashboard Page Controller');
 
             var id = $routeParams.id;

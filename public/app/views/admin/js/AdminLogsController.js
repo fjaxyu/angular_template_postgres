@@ -64,7 +64,7 @@
                 });
             };
 
-            UtilityService.setPage('Admin Logs - Dashboard', true, 'admin').then(function (response) {
+            UtilityService.setPage('Dashboard', true, 'admin').then(function (response) {
                 $scope.admin = AdminService.getAdmin();
                 $scope.getAdminLogs().then(function (response) {
                     return $scope.getLogDates();

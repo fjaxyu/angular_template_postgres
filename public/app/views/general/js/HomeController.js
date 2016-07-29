@@ -6,7 +6,7 @@
         
         UserService.redirectUser('home');
         
-        UtilityService.setPage('Art Lineup', false).then(function(response){
+        UtilityService.setPage('My App', false).then(function(response){
             
         });
         

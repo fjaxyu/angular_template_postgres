@@ -26,7 +26,7 @@
                 }
             };
 
-            UtilityService.setPage('Art Lineup - Feedback', false).then(function (response) {
+            UtilityService.setPage('Feedback', false).then(function (response) {
                 if (UserService.isLoggedIn()) {
                     var user = UserService.get();
                     
