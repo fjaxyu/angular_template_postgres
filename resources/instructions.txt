@@ -1,0 +1,37 @@
+CERTIFICATE
+'App.js' - app.all('*', ensureSecure); - UNCOMMENT - This will call the ensureSecure function;
+'App.js' - function ensureSecure(); - UNCOMMENT - this will redirect the user from non-secure sites;
+'./bin/server.js' - UNCOMMENT - the security statement
+'./bin/server.js' - UNCOMMENT - the httpServer.close(); function
+'./config/constants.js' - Enter the key name of the website with the proper format
+'./config/constants.js' - Uncomment the three variables (privateKey, certificate, credentials)
+'./config/certs/' - Add the two certificate files to this folder
+
+
+SPARKPOST
+Uncomment:
+'./lib/sparkpost.js' - UNCOMMENT - everything
+'./lib/sparkpost.js' - Add your sparkpost Unique Key to the key variable
+'./lib/sparkpost.js' - Add your unique URL to the url variable
+
+
+FAVICON
+When you add a file, save it in the base directory then:
+'App.js' - app.use(favicon('./favicon.ico')); - UNCOMMENT
+
+
+RUN THE APPLICATION
+nodemon bin/server.js
+
+
+AWS S3 IMAGES
+Uncomment:
+'./routes/images.js' - UNCOMMENT - the whole file
+'./routes/images.js' - Add your accessKeyId, SecretAccessKey, Region, and Path variables
+
+
+DATABASE
+'./config/constants.js' - Add your database url to the connectionString variable (if using Heroku, you need to add '?ssl=true' to the end of your url)
+run 'node create.js'
+
+
