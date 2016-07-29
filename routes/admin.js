@@ -1,13 +1,9 @@
-var postgres = require('./pgDatabase.js');
-var sql = require('./newdatabase.js');
+var logger = require('tracer').colorConsole();
 var Bluebird = require('bluebird');
-
+var db = require('../config/database');
 var jwt = require('jwt-simple');
 var hash = require('sha1');
-
-var Admin = sql.admin;
-var Logs = sql.logs;
-var Feedback = sql.feedback;
+//var sparkpost = require('../lib/sparkpost');
 
 
 function genToken(user) {
@@ -21,16 +17,23 @@ function genToken(user) {
 }
 exports.genToken = genToken;
 
+
 function getDetails(req, res) {
-    console.log("Get Admin Details");
+    logger.log('Get Admin Details');
     var myData = {};
-    if (req.params.type === "all") {
-        var query = "SELECT * FROM feedback_details;";
-        postgres.query(query, function (data) {
-            myData.feedback = data.rows[0];
-            var query2 = "SELECT * FROM log_details;";
-            postgres.query(query2, function (data2) {
-                myData.logs = data2.rows[0];
+    logger.log(req.params.type);
+    if (req.params.type === 'all') {
+        db.feedback_details.find({}, {
+            order: 'feedback_total_unfixed'
+        }, function (err, data) {
+//            logger.log(data);
+            logger.log(err);
+            myData.feedback = data[0];
+            db.log_details.find({}, {
+                order: 'log_total_fixed'
+            }, function (err, data2) {
+                myData.logs = data2[0];
+//                logger.log(myData);
                 res.json(myData);
             });
         });
@@ -38,104 +41,153 @@ function getDetails(req, res) {
 }
 exports.getDetails = getDetails;
 
+
+function getLogDates(req, res) {
+    logger.log('GET LOG DATES');
+    db.log_due_date_totals.find({}, function (err, data) {
+        res.json(data);
+    });
+}
+exports.getLogDates = getLogDates;
+
+
+function getAdminWeeklySnapshot() {
+    return new Bluebird(function (resolve, reject) {
+        logger.log('GET Admin Weekly Snapshot');
+        var query = 'select * from admin_weekly_snapshot;';
+        db.run(query, [], function (err, data) {
+            resolve(data[0]);
+        });
+    });
+}
+exports.getAdminWeeklySnapshot = getAdminWeeklySnapshot;
+
+
+function sendAdminSnapshot(req, res){
+    db.adminSubscriptions('weekly breakdown', function (err, data) {
+            var users = data;
+            getAdminWeeklySnapshot().then(function (response) {
+//                sparkpost.sendAdminSnapshot(users, response).then(function(response){
+//                    res.json(response);
+//                }, function(error){
+//                    res.json(error);
+//                });
+            });
+        });
+}
+exports.sendAdminSnapshot = sendAdminSnapshot;
+
+
 function expiresIn(numDays) {
     var dateObj = new Date();
     return dateObj.setDate(dateObj.getDate() + numDays);
 }
 exports.expiresIn = expiresIn;
 
+
 function getAdminList(req, res) {
-    console.log("Admin List");
-    var query = "select admin_id, username from admin;";
-    postgres.query(query, function (data) {
-        console.log("done");
-        res.json(data.rows);
+    logger.log('Admin List');
+    db.admin.find({}, {
+        columns: ['admin_id', 'username']
+    }, function (err, data) {
+        res.json(data);
     });
 }
 exports.getAdminList = getAdminList;
 
+
 function feedbackRead(req, res) {
-    console.log("Feedback Read Update");
-    var query = "UPDATE feedback SET read_by = " + req.body.admin + ", date_read = to_date('" + req.body.date + "', 'MM/DD/YYYY') WHERE feedback_id = " + req.body.feedback + ";";
-    postgres.query(query, function (data) {
+    logger.log('Feedback Read Update');
+    db.feedback.update({
+        feedback_id: req.body.feedback
+    }, {
+        read_by: req.body.admin,
+        date_read: req.body.date
+    }, function (er, data) {
         res.json(data);
     });
 }
 exports.feedbackRead = feedbackRead;
 
+
 function updateFeedback(req, res) {
-    console.log("Update Feedback");
-    var query = Feedback.update(req.body).and(Feedback.feedback_id.equals(req.body.feedback_id)).toQuery();
-    postgres.query(query, function (data) {
+    logger.log('Update Feedback');
+    db.feedback.update({
+        feedback_id: req.body.feedback_id
+    }, req.body, function (err, data) {
         res.json(data);
     });
 }
 exports.updateFeedback = updateFeedback;
 
+
 function login(req, res) {
-    console.log("Admin Login");
+    logger.log('Admin Login');
     var username = req.body.username;
     var password = hash(req.body.password);
-    var query = "select u.username, u.type, u.admin_id from admin u WHERE u.username = '" + username + "' AND u.password = '" + password + "';";
-    postgres.query(query, function (data) {
-        console.log(data.rows.length);
-        if (data.rows.length > 0) {
-            var user = genToken(data.rows[0]);
-            res.json(user);
+    db.admin.find({
+        username: username,
+        password: password
+    }, {
+        columns: ['username', 'type', 'admin_id']
+    }, function (err, data) {
+        if (data.length !== 0) {
+            var newData = data[0];
+            // logger.log(newData);
+            var user = genToken(data);
+            // logger.log(user.token);
+            newData.token = user.token;
+            res.json(newData);
         } else {
-            console.log(data.rows);
-            res.json("combination does not exist");
+            logger.log(data);
+            res.json('combination does not exist');
         }
     });
 }
 exports.login = login;
 
+
 function getAdminQuick(req, res) {
-    console.log("Get Admin Quick");
-    var query = "select * from admin_quick_look";
-    postgres.query(query, function (data) {
-        var query2 = "select * from top_players";
+    logger.log('Get Admin Quick');
+    db.admin_quick_look.find({}, function (err, data) {
         var myData = {};
-        myData.quickLook = data.rows;
-        postgres.query(query2, function (data2) {
-            myData.topPlayers = data2.rows;
+        myData.quickLook = data;
+        db.top_players.find({}, function (err, data2) {
+            myData.topPlayers = data2;
             res.json(myData);
         });
-
     });
 }
 exports.getAdminQuick = getAdminQuick;
 
+
 function getFeedback(req, res) {
-    console.log("Get Admin Feedback");
-    var query;
-    if (req.params.quantity === "all") {
-        query = "select * from feedback;";
-        postgres.query(query, function (data) {
-            res.json(data.rows);
-        });
-    } else {
-        query = "SELECT * FROM feedback WHERE feedback_id = " + req.params.quantity + ";";
-        postgres.query(query, function (data) {
-            res.json(data.rows[0]);
-        });
-    }
+    logger.log('Get Admin Feedback');
+    //Wheaties box ternary operator
+    var query = req.params.quantity === 'all' ? {} : {
+        feedback_id: req.params.quantity
+    };
+    db.feedback.find(query, function (err, data) {
+        res.json(data);
+    });
 }
 exports.getFeedback = getFeedback;
 
+
 function getLogs(req, res) {
-    console.log("Get Admin Logs");
-    var query = "select * from logs";
-    postgres.query(query, function (data) {
-        res.json(data.rows);
+    logger.log('Get Admin Logs');
+    db.logs.find({}, function (err, data) {
+        res.json(data);
     });
 }
 exports.getLogs = getLogs;
 
+
 function deleteLog(req, res) {
-    console.log("Delete Log");
-    var query = "DELETE FROM logs WHERE log_id = " + req.params.id + ";";
-    postgres.query(query, function (data) {
+    logger.log('Delete Log');
+    db.logs.destroy({
+        log_id: req.params.id
+    }, function (err, data) {
         res.json('complete');
     });
 }
@@ -143,34 +195,33 @@ exports.deleteLog = deleteLog;
 
 
 function getLog(req, res) {
-    console.log("Get Admin Log");
+    logger.log('Get Admin Log');
     var id = req.params.id;
-    var query = "select * from logs WHERE log_id = " + id;
-    postgres.query(query, function (data) {
-        res.json(data.rows);
+    db.logs.find({
+        log_id: id
+    }, function (err, data) {
+        res.json(data);
     });
 }
 exports.getLog = getLog;
 
 
-
 function updateLog(req, res) {
-    console.log("Update Admin Log");
+    logger.log('Update Admin Log');
     var l = req.body;
-    var query = Logs.update(l).where(Logs.log_id.equals(l.log_id)).toQuery();
-    postgres.query(query, function () {
+    db.logs.update({
+        log_id: l.log_id
+    }, l, function (err, data) {
         res.json('Successfully updated!');
     });
 }
 exports.updateLog = updateLog;
 
+
 function newLog(req, res) {
-    console.log("Update Admin Log");
-    var l = req.body;
-    var query = Logs.insert(l).toQuery();
-    console.log(query);
-    postgres.query(query, function () {
-        res.json('Successfully updated!');
+    logger.log('Update Admin Log');
+    db.logs.insert(req.body, function (err, data) {
+        res.json('Successfully created!');
     });
 }
 exports.newLog = newLog;

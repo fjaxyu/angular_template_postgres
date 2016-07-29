@@ -1,4 +1,4 @@
 (function(angular){
-    angular.module('artlineup.general', []);
+    angular.module('general', []);
 
 })(angular);

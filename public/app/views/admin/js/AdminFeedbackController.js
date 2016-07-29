@@ -1,6 +1,6 @@
 (function (angular) {
     angular
-        .module('artlineup.admin').controller('AdminFeedbackController', function ($scope, $location, $rootScope, AdminService) {
+        .module('admin').controller('AdminFeedbackController', function ($scope, $location, $rootScope, AdminService, UserService) {
 
             $rootScope.pageTitle = 'Art Lineup - Feedback Single';
             console.log('Admin Dashboard Page Controller');

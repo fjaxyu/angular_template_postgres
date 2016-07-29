@@ -1,5 +1,5 @@
 (function (angular) {
-    angular.module('artlineup.admin').factory('AdminService', function ($http, $sessionStorage, $location, $window, UserService, Upload, $rootScope, $q) {
+    angular.module('admin').factory('AdminService', function ($http, $sessionStorage, $location, $window, UserService, Upload, $rootScope, $q) {
         var Admin = {};
 
         //Admin Login 
@@ -61,12 +61,14 @@
         //Params:
         //      *none*
         //Created By: Wesley Braithwaite - 05/01/2016
-        //Last changed by: Wesley Braithwaite - 05/28/2016
-        //      explanation of change: 
+        //Last changed by: Wesley Braithwaite - 07/15/2016
+        //      explanation of change: added the hideNavbar
         Admin.isLoggedIn = function () {
             if (!$sessionStorage.admin) {
+                $rootScope.hideNavbar = false;
                 return false;
             } else {
+                $rootScope.hideNavbar = true;
                 return true;
             }
         };
@@ -79,9 +81,13 @@
         //Last changed by: Wesley Braithwaite - 05/28/2016
         //      explanation of change: 
         Admin.redirect = function () {
-            if (!Admin.isLoggedIn()) {
-                $location.url('/admin/login');
-            }
+            return $q(function (resolve, reject) {
+                if (!Admin.isLoggedIn()) {
+                    $location.url('/admin/login');
+                } else {
+                    resolve('complete');
+                }
+            });
         };
 
         
@@ -169,7 +175,7 @@
                 data: feedback,
                 method: 'POST'
             }).then(function (response) {
-                return response;
+                return response.data;
             });
         };
 
@@ -187,53 +193,11 @@
                     'x-access-token': user.token
                 },
                 url: '/api/v1/admin/getAdminList',
-                method: 'get'
+                method: 'GET'
             }).then(function (response) {
                 return response;
             });
         };
-
-        
-        //gets the day
-        //Params:
-        //      *none*
-        //Created By: Wesley Braithwaite - 05/01/2016
-        //Last changed by: Wesley Braithwaite - 05/28/2016
-        //      explanation of change:
-        //DEPRECATED
-        var getDay = function () {
-            console.log('DEPRECATED - USE UtilityService');
-            var today = new Date();
-            var dd = today.getUTCDate();
-            var mm = today.getUTCMonth() + 1; //January is 0!
-            var yyyy = today.getUTCFullYear();
-
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-
-            var time = mm + '/' + dd + '/' + yyyy;
-            //        console.log(time);
-            return time;
-        };
-
-        
-        //gets the date
-        //Params:
-        //      *none*
-        //Created By: Wesley Braithwaite - 05/01/2016
-        //Last changed by: Wesley Braithwaite - 05/28/2016
-        //      explanation of change:
-        //DEPRECATED
-        Admin.getDay = function () {
-            console.log('DEPRECATED - USE UtilityService');
-            var time = getDay();
-            return time;
-        };
-        
         
         //This returns the current admin
         //Params:
@@ -278,7 +242,20 @@
                     return response;
                 });
             }
-
+        };
+        
+        
+        Admin.getLogDates = function () {
+            var user = Admin.getAdmin();
+            return $http({
+                headers: {
+                    'x-access-token': user.token
+                },
+                url: '/api/v1/admin/getLogDates',
+                method: 'GET'
+            }).then(function (response) {
+                return response;
+            });
         };
 
         

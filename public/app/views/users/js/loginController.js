@@ -1,6 +1,6 @@
 (function (angular) {
     angular
-        .module('artlineup.users').controller('loginController', function ($scope, $q, $http, $location, $sessionStorage, $route, $routeParams, $rootScope, UserService, $window) {
+        .module('users').controller('loginController', function ($scope, $q, $http, $location, $sessionStorage, $route, $routeParams, $rootScope, UserService, $window) {
             $rootScope.pageTitle = 'My App - Login';
 
             $scope.new = {};

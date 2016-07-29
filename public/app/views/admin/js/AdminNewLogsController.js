@@ -1,8 +1,8 @@
 (function (angular) {
     angular
-        .module('artlineup.admin').controller('AdminNewLogsController', function ($scope, $routeParams, UtilityService, $q, $location, $rootScope, AdminService) {
+        .module('admin').controller('AdminNewLogsController', function ($scope, $routeParams, UtilityService, $q, $location, $rootScope, AdminService, UserService) {
 
-            $rootScope.pageTitle = 'Art Lineup - Admin Dashboard';
+            $rootScope.pageTitle = 'Art Lineup - Admin Logs New';
             console.log('Admin Dashboard Page Controller');
 
             var id = $routeParams.id;
@@ -31,10 +31,12 @@
             if (AdminService.isLoggedIn()) {
                 $scope.admin = AdminService.getAdmin();
                 AdminService.getAdminList().then(function (response2) {
-                    $scope.admins = jQuery.extend(true, [], response2.data);
-                    var temp = jQuery.extend(true, [], response2.data);
+                    console.log(response2);
+                    $scope.admins = jQuery.extend(true, [], response2);
+                    var temp = jQuery.extend(true, [], response2);
                     $scope.assignments = [{username: 'none'}];
                     $scope.assignments = $scope.assignments.concat(temp);
+                    $scope.log.device = 'general';
                 });
             }
 
@@ -69,9 +71,9 @@
             $scope.log = {};
             $scope.checkPublic();
             $scope.checkFixed();
-            $scope.log.last_updated = AdminService.getDay();
+            $scope.log.last_updated = UtilityService.getToday('text');
             $scope.log.updated_by = $scope.admin.username;
-            $scope.log.date_found = AdminService.getDay();
+            $scope.log.date_found = UtilityService.getToday('text');
             $scope.log.created_by = $scope.admin.username;
             $scope.log.public = false;
             $scope.log.fixed = false;

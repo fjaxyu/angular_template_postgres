@@ -1,4 +1,6 @@
-<div class="container background-white extend">
+<loading-template></loading-template>
+
+<div class="container background-white extend" ng-show="state === 'dashboard'">
     <h1 class="CF">Admin Logs <small>{{count}}</small></h1>
     <div class="lineBreak"></div>
 
@@ -6,145 +8,140 @@
     <div class="alert alert-danger" ng-show="errorMessage" role="alert">{{errorMessage}}</div>
     <div class="alert alert-warning" ng-show="warningMessage" role="alert">{{warningMessage}}</div>
 
-    <a href="/admin/dashboard" class="btn btn-default">Return to Dashboard</a>
-    <a href="/admin/new/log" class="btn btn-success right">New Log</a>
+    <div class="clear">
+        <a href="/admin/dashboard" class="btn btn-default btn-sm">Return to Dashboard</a>
+    </div>
 
-    <br>
+    <div class="clear" style="height: 15px;"></div>
 
-    <br>
-    <br>
+    <div class="clear">
+        <div class="col-xs-8">
+            <a href="/admin/new/log" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> New Log</a>
 
-    <div class="col-xs-6 col-md-4">
-        <div class="form-group">
-            <label>Filter By Priority</label>
-            <select class="form-control" ng-model="filter.priority" ng-change="filterTable()">
-                <option value="all">All</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-                <option value="note">Note</option>
-            </select>
+            <button onclick="toggleFilter()" class="btn btn-default btn-sm right"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
+            <button class="btn btn-default btn-sm btn-margin-right right" data-toggle="modal" data-target="#settings"><i class="fa fa-cog" aria-hidden="true"></i> Settings</button>
         </div>
-        <div class="form-group">
-            <label>Filter By Device</label>
-            <select class="form-control" ng-model="filter.device" ng-change="filterTable()">
-                <option value="all">All</option>
-                <option value="mobile">Mobile</option>
-                <option value="desktop">Desktop</option>
-                <option value="general">General</option>
-                <option value="browser">Browser</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Filter By Type</label>
-            <select class="form-control" ng-model="filter.type" ng-change="filterTable()">
-                <option value="all">All</option>
-                <option value="bug">Bug</option>
-                <option value="note">Note</option>
-                <option value="general">General</option>
-                <option value="build">Build</option>
-                <option value="feature">New Feature</option>
-                <option value="warning">Warning</option>
-            </select>
+
+        <div class="col-xs-4">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="search" ng-model="filter.text" ng-change="filterTable()">
+            </div>
         </div>
     </div>
 
-    <div class="col-xs-6 col-md-4">
-        <div class="col-xs-6">
-            <label>Due Date</label>
+    <div class="fullWidth" id="filterOptions" style="">
+        <div class="col-xs-6 col-md-3">
             <div class="form-group">
-                <label>
-                    <input type="radio" ng-model="filter.date_due" data-ng-value="'with'" ng-change="filterTable()"> With Due Date
-                </label>
-                <br>
-                <label>
-                    <input type="radio" ng-model="filter.date_due" data-ng-value="'all'" ng-change="filterTable()"> Both
-                </label>
-                <br>
-
-                <label>
-                    <input type="radio" ng-model="filter.date_due" data-ng-value="'without'" ng-change="filterTable()"> Without Due Date
-                </label>
+                <label>Filter By Priority</label>
+                <select class="form-control input-sm" ng-model="filter.priority" ng-change="filterTable()">
+                    <option value="all">All</option>
+                    <option value="high">High</option>
+                    <option value="mid">Medium</option>
+                    <option value="low">Low</option>
+                    <option value="note">Note</option>
+                </select>
             </div>
-        </div>
-        <div class="col-xs-6">
-            <label>Fixed</label>
             <div class="form-group">
-                <label>
-                    <input type="radio" ng-model="filter.fixed" data-ng-value="true" ng-change="filterTable()"> Complete
-                </label>
-                <br>
-                <label>
-                    <input type="radio" ng-model="filter.fixed" data-ng-value="'all'" ng-change="filterTable()"> Both
-                </label>
-                <br>
-                <label>
-                    <input type="radio" ng-model="filter.fixed" data-ng-value="false" ng-change="filterTable()"> Incomplete
-                </label>
+                <label>Filter By Device</label>
+                <select class="form-control input-sm" ng-model="filter.device" ng-change="filterTable()">
+                    <option value="all">All</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="desktop">Desktop</option>
+                    <option value="general">General</option>
+                    <option value="browser">Browser</option>
+                </select>
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Search Assignments</label>
-            <input type="text" class="form-control" ng-model="filter.userText" ng-change="filterTable()">
+        <div class="col-xs-6 col-md-3">
+            <div class="form-group">
+                <label>Filter By Type</label>
+                <select class="form-control input-sm" ng-model="filter.type" ng-change="filterTable()">
+                    <option value="all">All</option>
+                    <option value="build">Build</option>
+                    <option value="bug">Bug</option>
+                    <option value="note">Note</option>
+                    <option value="test">Test</option>
+                    <option value="clean">Cleaning</option>
+                    <option value="feature">New Feature</option>
+                    <option value="maintain">Maintain</option>
+                    <option value="improvement">Improvement</option>
+                    <option value="warning">Warning</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Filter By Date</label>
+                <select id="gallery" class="form-control input-sm" ng-change="filterTable()" ng-options="o as (o  | date:'EEEE MMM d, yyyy':'UTC') for o in dates" ng-model="filter.date"></select>
+            </div>
         </div>
+
+        <div class="col-xs-6 col-md-6">
+            <div class="form-group">
+                <label>Search Assignments</label>
+                <input type="text" class="form-control input-sm" ng-model="filter.userText" ng-change="filterTable()">
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group right">
+                    <label>Due Date</label>
+                    <div class="btn-group" role="group">
+                        <button ng-click="filter.date_due = 'with'; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.date_due !== 'with', 'btn-primary': filter.date_due === 'with'}">With</button>
+                        <button ng-click="filter.date_due = 'all'; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.date_due !== 'all', 'btn-primary': filter.date_due === 'all'}">Both</button>
+                        <button ng-click="filter.date_due = 'without'; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.date_due !== 'without', 'btn-primary': filter.date_due === 'without'}">Without</button>
+                    </div>
+                </div>
+
+                <div class="form-group right">
+                    <label>Public</label>
+                    <div class="btn-group" role="group">
+                        <button ng-click="filter.public = true; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.public !== true, 'btn-success': filter.public === true}">True</button>
+                        <button ng-click="filter.public = 'all'; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.public !== 'all', 'btn-success': filter.public === 'all'}">Both</button>
+                        <button ng-click="filter.public = false; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.public !== false, 'btn-success': filter.public === false}">False</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group right">
+                    <label>Fixed</label>
+                    <div class="btn-group" role="group">
+                        <button ng-click="filter.fixed = true; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.fixed !== true, 'btn-cust-purple': filter.fixed === true}">Fixed</button>
+                        <button ng-click="filter.fixed = 'all'; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.fixed !== 'all', 'btn-cust-purple': filter.fixed === 'all'}">Both</button>
+                        <button ng-click="filter.fixed = false; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.fixed !== false, 'btn-cust-purple': filter.fixed === false}">Unfixed</button>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+
+                <div class="form-group right">
+                    <label>Assigned</label>
+                    <div class="btn-group" role="group">
+                        <button ng-click="filter.assigned = true; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.assigned !== true, 'btn-cust-mint': filter.assigned === true}">True</button>
+                        <button ng-click="filter.assigned = 'all'; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.assigned !== 'all', 'btn-cust-mint': filter.assigned === 'all'}">Both</button>
+                        <button ng-click="filter.assigned = false; filterTable();" type="button" class="btn btn-sm" ng-class="{'btn-default': filter.assigned !== false, 'btn-cust-mint': filter.assigned === false}">False</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <lb></lb>
+        
     </div>
-
-    <div class="col-xs-6 col-md-4">
-        <div class="col-xs-6">
-            <label>Public</label>
-            <div class="form-group">
-                <label>
-                    <input type="radio" ng-model="filter.public" data-ng-value="'all'" ng-change="filterTable()"> Show All
-                </label>
-                <br>
-                <label>
-                    <input type="radio" ng-model="filter.public" data-ng-value="true" ng-change="filterTable()"> Public
-                </label>
-                <br>
-                <label>
-                    <input type="radio" ng-model="filter.public" data-ng-value="false" ng-change="filterTable()"> Private
-                </label>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <label>Assigned</label>
-            <div class="form-group">
-                <label>
-                    <input type="radio" ng-model="filter.assigned" data-ng-value="'all'" ng-change="filterTable()"> Show All
-                </label>
-                <br>
-                <label>
-                    <input type="radio" ng-model="filter.assigned" data-ng-value="true" ng-change="filterTable()"> Assigned
-                </label>
-                <br>
-                <label>
-                    <input type="radio" ng-model="filter.assigned" data-ng-value="false" ng-change="filterTable()"> Unassigned
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Search</label>
-            <input type="text" class="form-control" ng-model="filter.text" ng-change="filterTable()">
-        </div>
-    </div>
-
 
     <div class="table-responsive clear">
         <table class="table table-striped table-hover">
             <tr>
-                <th><a ng-click="updateTable('log_id')">Log ID</a></th>
                 <th class="text-center"><a ng-click="updateTable('fixed')">Fixed</a></th>
                 <th><a ng-click="updateTable(['group', 'subgroup', 'date_due'])">Group</a></th>
                 <th><a ng-click="updateTable('subgroup')">Subgroup</a></th>
                 <th><a ng-click="updateTable(['public_title', 'date_due'])">Title</a></th>
                 <th><a ng-click="updateTable(['date_due', 'group', 'subgroup'])">Date Due</a></th>
-                <th><a ng-click="updateTable(['assigned_to', 'date_due', 'group'])">Assigned To</a></th>
+                <th><a ng-click="updateTable(['assigned_to', 'date_due', 'group'])">Assigned</a></th>
+                <th class="text-center"><a ng-click='updateTable(["estimated_minutes", "group"])'>Time Est.</a></th>
                 <th class='text-center'><a ng-click="updateTable('priority')">Priority</a></th>
             </tr>
             <tr ng-repeat="log in logs | orderBy:predicate:reverse" ng-show="log.show == true" ng-click="edit(log.log_id)">
-                <td>{{log.log_id}}</td>
                 <td class="text-center">
                     <a class="btn btn-danger btn-sm" ng-show="log.fixed === false || log.fixed == null"></a>
                     <a class="btn btn-success btn-sm" ng-show="log.fixed === true"></a>
@@ -152,8 +149,9 @@
                 <td>{{log.group}}</td>
                 <td>{{log.subgroup}}</td>
                 <td>{{log.public_title | limitTo: 40}}<span ng-show="log.public_title.length > 40">...</span></td>
-                <td>{{log.date_due | date:'EEEE MMM d, yyyy':"UTC"}}</td>
+                <td>{{log.date_due | date:'EEE, MMM d':"UTC"}}</td>
                 <td>{{log.assigned_to}}</td>
+                <td class="text-center">{{log.estimated_minutes | number:0}}</td>
                 <td class='text-center'>
                     <a class="btn btn-danger btn-sm" ng-show="log.priority === 'high'"></a>
                     <a class="btn btn-warning btn-sm" ng-show="log.priority === 'mid'"></a>
@@ -161,8 +159,31 @@
                     <a class="btn btn-primary btn-sm" ng-show="log.priority === 'note'"></a>
                 </td>
             </tr>
+            <tr>
+                <th>Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-center">{{total_minutes | number: 0}} minutes ({{total_minutes/60 | number: 1}} hours)</th>
+                <th></th>
+            </tr>
         </table>
     </div>
 
     <div class="clear" style="height: 100px;"></div>
 </div>
+
+<script>
+    $(document).ready(function() {
+//        setTimeout(function() {
+//            $('#filterOptions').hide();
+//        }, 500)
+    })
+
+    var toggleFilter = function() {
+        $('#filterOptions').slideToggle(250);
+    }
+
+</script>

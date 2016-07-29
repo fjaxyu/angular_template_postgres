@@ -1,0 +1,234 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    -webkit-font-smoothing: antialiased;
+    color: #333;
+}
+
+.table-hover {
+    cursor: pointer;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.btn-margin-right {
+    margin-right: 5px;
+}
+
+.lineBreak {
+    height: 1px;
+    background: #ccc;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    clear: both;
+}
+
+.thinHeader {
+    font-weight: 300;
+}
+
+.btn-cust-purple,
+.btn-cust-purple:visited {
+    background: #6E4BAF;
+    color: white;
+    border: #553988 1px solid;
+}
+
+.btn-cust-purple:hover {
+    background: #5e3d9b;
+    color: #ddd;
+    border: #553988 1px solid;
+}
+
+.btn-cust-purple:active {
+    background: #553988;
+    color: #bbb;
+    border: #4c337b 1px solid;
+}
+
+.btn-cust-mint,
+.btn-cust-mint:visited {
+    background: #2ea888;
+    color: white;
+    border: #24846b 1px solid;
+}
+
+.btn-cust-mint:hover {
+    background: #269377;
+    color: #ddd;
+    border: #24846b 1px solid;
+}
+
+.btn-cust-mint:active {
+    background: #24846b;
+    color: #bbb;
+    border: #1f765f 1px solid;
+}
+
+.fullWidth {
+    width: 100%;
+    margin: none;
+    padding: none;
+    clear: both;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.clear {
+    clear: both;
+}
+
+.padding-small {
+    padding: 20px;
+}
+
+.padding-medium {
+    padding: 35px;
+}
+
+.padding-large {
+    padding: 50px;
+}
+
+.landscape-image {
+    height: auto;
+    max-height: 95%;
+    width: 95%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.portrait-image {
+    height: 95%;
+    width: auto;
+    max-width: 95%;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.weight200 {
+    font-weight: 200;
+}
+
+.weight300 {
+    font-weight: 300;
+}
+
+.weight400 {
+    font-weight: 400;
+}
+
+.weight500 {
+    font-weight: 500;
+}
+
+.weight600 {
+    font-weight: 600;
+}
+
+.weight700 {
+    font-weight: 700;
+}
+
+.weight800 {
+    font-weight: 800;
+}
+
+.italic {
+    font-style: italic;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto;
+    
+    /* Negative indent footer by its height */
+    margin: 0 auto -60px;
+    
+    /* Pad bottom by footer height */
+    padding: 0 0 60px;
+}
+
+.card {
+    -webkit-box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.3);
+    background: clear;
+    padding: 0px;
+}
+
+.card_padding {
+    /*    min-height: 400px;*/
+    padding: 50px;
+    background: clear;
+}
+
+.card_padding_small {
+    /*    min-height: 400px;*/
+    padding: 15px;
+    background: clear;
+}
+
+.card_padding_medium {
+    /*    min-height: 400px;*/
+    padding: 30px;
+    background: clear;
+}
+
+.card_round {
+    border-radius: 5px;
+}
+
+.card_bottom_round {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.card_accent {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    height: 10px;
+}
+
+.card_bottom_tip {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    height: 10px;
+}
+
+/*Custom Font*/
+.CF {
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+}
+
+/*Custom Font with No weight changes*/
+.CFn {
+    font-family: "Raleway", sans-serif;
+}
+
+.formError {
+    color: #aa0000;
+}
+
+.formSuccess {
+    color: #4e9648;
+}
+
+.inline-block {
+    display: inline-block !important;
+}
+

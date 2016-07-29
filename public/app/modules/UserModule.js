@@ -1,3 +1,3 @@
 (function(angular){
-    angular.module('artlineup.users', ['ngFileUpload' , 'ngStorage',    'bootstrapLightbox']);
+    angular.module('users', ['ngFileUpload' , 'ngStorage',    'bootstrapLightbox']);
 })(angular);

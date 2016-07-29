@@ -1,0 +1,1 @@
+SELECT name, email FROM subscriptions, admin WHERE subscriptions.type = $1 and subscriptions.admin = admin.username;

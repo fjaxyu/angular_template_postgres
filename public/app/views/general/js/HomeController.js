@@ -1,20 +1,34 @@
 (function(angular) {
 
-    angular.module('artlineup.general').controller('HomePageController', function ($scope, $location, $rootScope, $sessionStorage, UserService) {
-        $rootScope.pageTitle = 'Art Lineup - Home';
-        console.log('Home Page Controller');
-
-        //TODO I LIKE THIS REDIRECT I WANT YOUR OPINION WESSY WOO
-        if(UserService.isLoggedIn()){
-            $location.path('/dashboard');
-        }
-        $scope.myInterval = 5000;
-
+    angular.module('general').controller('HomePageController', function ($scope, $location, $rootScope, $sessionStorage, UserService, UtilityService) {
+        
         $rootScope.homePage = true;
+        
+        UserService.redirectUser('home');
+        
+        UtilityService.setPage('Art Lineup', false).then(function(response){
+            
+        });
+        
+        $scope.myInterval = 5000;
 
         $scope.$on('$locationChangeStart', function (event) {
             $rootScope.homePage = false;
         });
 
+        $scope.disabled = false;
+        
+        $scope.location = function(v){
+            console.log(v);
+            UtilityService.location(v, true);
+        };
+        
+        $scope.signUp = function(){
+            $sessionStorage.new = {};
+            $scope.disabled = true;
+            $sessionStorage.new.email = $scope.email;
+            UtilityService.location('/signup', true);
+        };
+        
     });
 })(angular);

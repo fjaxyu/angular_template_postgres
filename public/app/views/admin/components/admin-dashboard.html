@@ -1,4 +1,6 @@
-<div class="container background-white extend">
+<loading-template></loading-template>
+
+<div class="container background-white extend" ng-show="state === 'dashboard'">
     <h1 class="CF">Admin Dashboard</h1>
     <div class="lineBreak"></div>
 
@@ -6,87 +8,33 @@
     <div class="alert alert-danger" ng-show="errorMessage" role="alert">{{errorMessage}}</div>
     <div class="alert alert-warning" ng-show="warningMessage" role="alert">{{warningMessage}}</div>
 
-    <a ng-click="adminLogout()" class="btn btn-default right">Logout</a>
+    <div class="clear">
+        <a href="/admin/logs" class="btn btn-sm btn-cust-purple"><i class="fa fa-list-ul" aria-hidden="true"></i> Logs</a>
+        <a href="/admin/feedback" class="btn btn-sm btn-cust-mint"><i class="fa fa-comment" aria-hidden="true"></i> Feedback</a>
 
-    <div class="fullWidth clear">
-        <div class="col-xs-12 col-md-6">
-            <h2><a href="/admin/feedback">Feedback Details</a></h2>
-            <div class="lineBreak"></div>
+        <a ng-click="adminLogout()" class="btn btn-danger btn-sm right"><i class="fa fa-user" aria-hidden="true"></i> Logout</a>
+    </div>
 
-            <div class="fullWidth">
-                <p>
-                    Total Unfixed: <i>{{feedback.feedback_total_unfixed}}</i>
-                    <br> Total Unfixed (response required): <i>{{feedback.feedback_total_unfixed_with_response}}</i>
-                    <br> Total Unfixed (no response required): <i>{{feedback.feedback_total_unfixed - feedback.feedback_total_unfixed_with_response}}</i>
-                    <br>
-                </p>
-            </div>
+    <div class="clear" style="height: 15px;"></div>
 
-            <div class="fullWidth">
-                <h3>Unfixed By Type</h3>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <tr>
-                            <th>Type</th>
-                            <th>Quantity</th>
-                        </tr>
-                        <tr ng-repeat="item in feedback.feedback_total_unfixed_by_type">
-                            <td>{{item.type}}</td>
-                            <td>{{item.count}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="fullWidth">
-                <h3>Users With Most Feedback</h3>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <tr>
-                            <th>User</th>
-                            <th>Quantity</th>
-                        </tr>
-                        <tr ng-repeat="item in feedback.feedback_top_ten">
-                            <td>{{item.user_id}}</td>
-                            <td>{{item.count}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="fullWidth">
-                <h3>Feedback Addressed By User</h3>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <tr>
-                            <th>User</th>
-                            <th>Quantity</th>
-                        </tr>
-                        <tr ng-repeat="item in feedback.feedback_total_fixed_by_user">
-                            <td>{{item.admin_id}}</td>
-                            <td>{{item.count}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-xs-12 col-md-6">
+    <uib-tabset justified="false" active="active">
+        <uib-tab index="0" heading="Logs">
             <h2><a href="/admin/logs">Log Details</a></h2>
             <div class="lineBreak"></div>
 
             <div class="fullWidth">
-                <div class="col-xs-6">
+                <div class="col-xs-6 col-md-4">
                     <p>
                         Total Fixed: <i>{{logs.log_total_fixed | number}}</i>
-                        <br> Total Minutes: <i>{{logs.log_total_minutes | number}} ({{logs.log_total_minutes/60 | number:1}} hours)</i>
+                        <br> Total Minutes: 
+                            <br><i>Since April 1, 2016: {{logs.log_total_minutes | number}} minutes <br>({{logs.log_total_minutes/60 | number:1}} hours / {{logs.log_total_minutes/60/24 | number:1 }} days)</i>
+                            <br><i>Since November 1, 2015: {{logs.time_since_november | number: 0}} minutes<br>({{logs.time_since_november/60 | number: 1}} hours / {{logs.time_since_november/60/24 | number: 1}} days)</i>
                         <br> Average minutes per ticket: <i>{{logs.log_total_minutes/logs.log_total_fixed | number: 2}}</i>
                         <br>
                         <br><i>{{logs.log_estimated_minutes[0].sum/60 | number:1}}</i> estimated hours to complete all tickets
                     </p>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-6 col-md-4">
                     <p>
                         <i>{{logs.log_minute_breakdown[0].hours_per_day | number:1}}</i> hours per day
                         <br><i>{{logs.log_minute_breakdown[0].hours_per_week | number:1}}</i> hours per week
@@ -97,29 +45,157 @@
                 </div>
             </div>
 
-            <div class="fullWidth">
-                <h3>Unfixed By Date</h3>
+            <div class="col-xs-12">
+                <h3 class="CF">Unfixed By User</h3>
                 <div class="table-responsive">
                     <table class="table table-striped">
+                        <tr style="background: white;">
+                            <th>User</th>
+                            <th>Overdue</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Due This<br>Week</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Due In<br>Two Weeks</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
                         <tr>
-                            <th>Due Date</th>
-                            <th>Quantity</th>
+                            <th></th>
+                            <th>Minutes</th>
+                            <th>Items</th>
+                            <th></th>
+                            <th></th>
+                            <th>Minutes</th>
+                            <th>Items</th>
+                            <th></th>
+                            <th></th>
+                            <th>Minutes</th>
+                            <th>Items</th>
+                            <th></th>
+                            <th></th>
+                            <th>Minutes</th>
+                            <th>Items</th>
+                        </tr>
+                        <tr ng-repeat="v in table_unfixed">
+                            <td>{{v.assigned_to || 'unassigned'}}</td>
+                            <td ng-class="{'formError': v.overdue_items > 0}">{{v.overdue_minutes | number: 0}} ({{v.overdue_minutes/60 | number: 1}})</td>
+                            <td ng-class="{'formError': v.overdue_items > 0}">{{v.overdue_items}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.minutes_this_week | number:0}} ({{v.minutes_this_week/60 | number: 1}})</td>
+                            <td>{{v.due_this_week | number:0}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.minutes_two_weeks | number: 0}} ({{v.minutes_two_weeks/60 | number: 1}})</td>
+                            <td>{{v.due_two_weeks | number: 0}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.total_estimated_time | number: 0}} ({{v.total_estimated_time/60 | number: 1}})</td>
+                            <td>{{v.total_assignments | number: 0}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-xs-12">
+                <h3 class="CF">Fixed By User</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr style="background: white;">
+                            <th></th>
+                            <th>This Week</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Last Two<br>Weeks</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Last Month</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>All Time</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Weighted<br>Average</th>
+                        </tr>
+                        <tr style="">
+                            <th>Username</th>
+                            <th>Minutes</th>
+                            <th>Fixed</th>
+                            <th></th>
+                            <th></th>
+                            <th>Minutes</th>
+                            <th>Fixed</th>
+                            <th></th>
+                            <th></th>
+                            <th>Minutes</th>
+                            <th>Fixed</th>
+                            <th></th>
+                            <th></th>
+                            <th>Minutes</th>
+                            <th>Fixed</th>
+                            <th></th>
+                            <th></th>
+                            <th>Minutes Per Ticket</th>
+                        </tr>
+                        <tr ng-repeat="v in fixed_table">
+                            <td><b>{{v.fixed_by}}</b></td>
+                            <td>{{v.minutes_this_week | number: 0}} ({{v.minutes_this_week/60 | number: 1}})</td>
+                            <td>{{v.fixed_this_week | number: 0}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.minutes_two_weeks | number: 0}} ({{v.minutes_two_weeks/60 | number: 1}})</td>
+                            <td>{{v.fixed_two_weeks | number: 0}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.minutes_this_month | number: 0}} ({{v.minutes_this_month/60 | number: 1}})</td>
+                            <td>{{v.fixed_this_month | number: 0}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.minutes_all_time | number: 0}} ({{v.minutes_all_time/60 | number: 1}})</td>
+                            <td>{{v.fixed_all_time | number: 0}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.weighted_average | number: 0}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <h3>Unfixed By Date</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped text-center">
+                        <tr>
+                            <th class="text-center">Due Date</th>
+                            <th>Items</th>
                             <th>Days</th>
                             <th>Estimated Completion Date</th>
                             <th>Days Over</th>
                         </tr>
-                        <tr ng-repeat="item in logs.log_due_date_totals | orderBy:'due_date'">
-                            <td>{{item.due_date | date:'fullDate'}}</td>
+                        <tr ng-repeat="item in logs.log_due_date_totals | orderBy:'due_date'" ng-class="{'danger': item.due_date < today}">
+                            <td>{{item.due_date | date:'EEE, MMM d, yyyy'}}</td>
                             <td>{{item.count}}</td>
                             <td>{{item.estimated_days | number:0}}</td>
-                            <td>{{item.deadline | date:'fullDate'}}</td>
+                            <td>{{item.deadline | date:'EEE, MMM d, yyyy'}}</td>
                             <td>{{item.days_over | number:0}}</td>
                         </tr>
                     </table>
                 </div>
             </div>
 
-            <div class="fullWidth">
+
+            <div class="col-xs-12 col-md-6">
                 <h3>Total Fixed By User</h3>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -141,7 +217,7 @@
                 </div>
             </div>
 
-            <div class="fullWidth">
+            <div class="col-xs-12 col-md-6">
                 <h3>Total Unfixed By Device</h3>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -157,7 +233,7 @@
                 </div>
             </div>
 
-            <div class="fullWidth">
+            <div class="col-xs-12 col-md-6">
                 <h3>Total Unfixed By Priority</h3>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -173,7 +249,7 @@
                 </div>
             </div>
 
-            <div class="fullWidth">
+            <div class="col-xs-12 col-md-6">
                 <h3>Total Unfixed By Type</h3>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -188,7 +264,70 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
+        </uib-tab>
+
+        <uib-tab index="1" heading="Feedback">
+            <h2><a href="/admin/feedback">Feedback Details</a></h2>
+            <div class="lineBreak"></div>
+
+            <div class="fullWidth">
+                <p>
+                    Total Unfixed: <i>{{feedback.feedback_total_unfixed}}</i>
+                    <br> Total Unfixed (response required): <i>{{feedback.feedback_total_unfixed_with_response}}</i>
+                    <br> Total Unfixed (no response required): <i>{{feedback.feedback_total_unfixed - feedback.feedback_total_unfixed_with_response}}</i>
+                    <br>
+                </p>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <h3>Unfixed By Type</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in feedback.feedback_total_unfixed_by_type">
+                            <td>{{item.type}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-md-6">
+                <h3>Users With Most Feedback</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>User</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in feedback.feedback_top_ten">
+                            <td>{{item.user_id}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <h3>Feedback Addressed By User</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>User</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr ng-repeat="item in feedback.feedback_total_fixed_by_user">
+                            <td>{{item.admin_id}}</td>
+                            <td>{{item.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
 
 </div>

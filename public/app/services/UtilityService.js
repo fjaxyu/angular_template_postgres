@@ -1,8 +1,13 @@
 (function (angular) {
     angular
-        .module('artlineup.utilities').factory('UtilityService', function ($http, $q, $timeout, UserService, $sessionStorage, $location, $window, Upload, $rootScope) {
+        .module('utilities').factory('UtilityService', function ($http, AdminService, $q, $timeout, UserService, $sessionStorage, $location, $log, $window, Upload, $rootScope) {
             var Utility = {};
-            var user = UserService.get();
+            $rootScope.userMessage = {};
+            var user;
+
+            if (UserService.isLoggedIn()) {
+                user = UserService.get();
+            }
 
             //Capitalizes the first letter of each word
             //Params: 
@@ -18,6 +23,109 @@
             };
 
 
+            Utility.showMessage = function (type, message, length) {
+                if (length == null) {
+                    length = 3000;
+                }
+
+                if (type == null) {
+                    console.log('No type was defined');
+                    return;
+                } else if (message == null) {
+                    console.log('No message was defined');
+                } else {
+                    $rootScope.userMessage[type] = message;
+                    console.log($rootScope.userMessage);
+
+                    $timeout(function () {
+                        $rootScope.userMessage[type] = undefined;
+                    }, length);
+                }
+            };
+
+            //Changes the state of the controller page
+            //Params:
+            //      state = the string of the state that you want to show. 'update' and 'dashboard' are generally used
+            //      title = the title to be displayed during the loading template page
+            //      set (optional) = defaults to creating a new time, if it is set to false it will skip this feature [this is used together with the finishedLoading function to create a minimum amount of time that the loading window will be displayed]
+            //      message (optional) = defaults to empty message
+            //      sub (optional) = defaults to empty submessage
+            //Created By: Wesley Braithwaite - 06/30/2016
+            //Last changed by: Wesley Braithwaite - 06/30/2016
+            //      explanation of change: created
+            Utility.state = function (state, title, set, message, sub) {
+                if (state == null) {
+                    console.log('state is undefined');
+                    return;
+                } else if (title == null) {
+                    console.log('title is undefined');
+                    return;
+                }
+
+                if (set == null || set === true) {
+                    $rootScope.min_time = new Date().getTime();
+                }
+
+                $rootScope.state = state;
+                $rootScope.message = {
+                    title: title,
+                    message: message || '',
+                    subMessage: sub || ''
+                };
+            };
+
+
+            //Finishes loading the page from the initial display and uses a built in minimum time function
+            //Params:
+            //      state = the string of the state that you want to show. 'dashboard' is generally used here
+            //Created By: Wesley Braithwaite - 06/30/2016
+            //Last Changed By: Wesley Braithwaite - 06/30/2016
+            //      Explanation of change: created
+            Utility.finishLoading = function (state) {
+                var minTime = 1000;
+                if (state == null) {
+                    console.log('state is undefined');
+                    $rootScope.message = {
+                        title: 'Error',
+                        message: 'Please try refreshing the page',
+                        subMessage: 'If this error persists, please send feedback about the current page you are using'
+                    };
+                    return;
+                }
+
+                var currentTime = new Date().getTime();
+                var timeElapsed = currentTime - $rootScope.min_time;
+                var timeRemaining;
+                if (timeElapsed >= minTime) {
+                    timeRemaining = 0;
+                } else {
+                    timeRemaining = minTime - timeElapsed;
+                }
+                //console.log('time elapsed: ' + timeElapsed + '; Time remaining: ' + timeRemaining + '.');
+                $timeout(function () {
+                    $rootScope.state = state;
+                }, timeRemaining);
+            };
+
+
+            //Returns a duplicate of the object passed to it
+            //Params:
+            //      obj = a simple object
+            //      type = having any value except null will return a copy of an array
+            //Created By: Wesley Braithwaite - 06/18/2016
+            //      explanation of change: 
+            Utility.copyObject = function (obj, type) {
+                if (type == null || type === 'object') {
+                    return jQuery.extend(true, {}, obj);
+                } else if (type === 'array') {
+                    return obj.slice();
+                } else {
+                    $log.error = 'UtilityService.copyObject: No type was specified.';
+                    return;
+                }
+            };
+
+
             //returns a lowercase version of the word
             //Params: 
             //      string = a word or sentence
@@ -29,7 +137,7 @@
             };
 
 
-        
+
             //Sets an ID on the current page to the focus
             //Params: 
             //      id = the name of the id of the input you want to set focus to
@@ -40,7 +148,7 @@
                 if (time == null) {
                     time = 0;
                 }
-                
+
                 $timeout(function () {
                     var element = $window.document.getElementById(id);
                     if (element) {
@@ -74,6 +182,34 @@
             //      explanation of change: 
             Utility.getToday = function (type) {
                 var dateObj = new Date();
+                var month = dateObj.getUTCMonth();
+                var day = dateObj.getUTCDate();
+                var year = dateObj.getUTCFullYear();
+                var string = '';
+
+                if (month + 1 < 10) {
+                    string = '0' + (month + 1);
+                } else {
+                    string = (month + 1);
+                }
+
+                if (day < 10) {
+                    string = string + '/0' + day + '/' + year;
+                } else {
+                    string = string + '/' + day + '/' + year;
+                }
+
+                var myDateFormat = new Date(year, month, day);
+                if (type === 'text') {
+                    return string;
+                } else {
+                    return myDateFormat;
+                }
+            };
+
+
+            Utility.getDate = function (text, type) {
+                var dateObj = new Date(text);
                 var month = dateObj.getUTCMonth();
                 var day = dateObj.getUTCDate();
                 var year = dateObj.getUTCFullYear();
@@ -186,7 +322,9 @@
                                 resolve(data);
                             });
                         } else if (type === 'admin') {
-                            console.log('admin');
+                            AdminService.redirect().then(function () {
+                                resolve('complete');
+                            });
                         } else {
                             UserService.redirectUser().then(function (data) {
                                 resolve(data);

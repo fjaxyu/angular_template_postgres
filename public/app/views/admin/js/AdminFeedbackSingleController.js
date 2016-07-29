@@ -1,6 +1,6 @@
 (function (angular) {
     angular
-        .module('artlineup.admin').controller('AdminFeedbackSingleController', function ($scope, UtilityService, $routeParams, $location, $rootScope, AdminService, $q) {
+        .module('admin').controller('AdminFeedbackSingleController', function ($scope, UtilityService, $routeParams, $location, $rootScope, AdminService, $q, UserService) {
 
             $rootScope.pageTitle = 'Art Lineup - Feedback Single';
             console.log('Admin Dashboard Page Controller');
@@ -12,9 +12,10 @@
             if (AdminService.isLoggedIn()) {
                 $scope.admin = AdminService.getAdmin();
                 AdminService.getFeedback(id).then(function (response) {
-                    $scope.feedback = response.data;
+                    $scope.feedback = response.data[0];
                     AdminService.getAdminList().then(function(response2){
-                        $scope.admins = response2.data;
+                        console.log(response2);
+                        $scope.admins = response2;
                     });
                     console.log(response.data);
                     if ($scope.feedback.fixed === null) {

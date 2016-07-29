@@ -1,43 +1,5 @@
-.table-hover {
-    cursor: pointer;
-}
-
-.thinHeader {
-    font-weight: 300;
-}
-
-.lineBreak {
-    height: 1px;
-    background: #ccc;
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    clear: both;
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
-}
-
-.fullWidth {
-    width: 100%;
-    margin: none;
-    padding: none;
-    clear: both;
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
 .text-color-darkGray {
     color: #444;
-}
-
-.clear {
-    clear: both;
 }
 
 .staticMessage {
@@ -60,11 +22,6 @@
     padding: 0px;
     margin: 0px;
     border: none;
-}
-
-.container-fluid {
-    /*    border-bottom: 1px solid #ccc;*/
-    /*    border-bottom: 1px solid #6d9cb7;*/
 }
 
 #footer {
@@ -128,37 +85,6 @@
     /*    height: 100%;*/
     display: block;
     min-height: 100%;
-}
-
-html {
-    height: 100%;
-    min-height: 100%;
-}
-
-body {
-    margin: 0px;
-    padding: 0px;
-    -webkit-font-smoothing: antialiased;
-    color: #333;
-    /*    color: green;*/
-}
-
-.landscape-image {
-    height: auto;
-    max-height: 95%;
-    width: 95%;
-    margin: 0px;
-    padding: 0px;
-    display: inline-block;
-}
-
-.portrait-image {
-    height: 95%;
-    width: auto;
-    max-width: 95%;
-    margin: 0px;
-    padding: 0px;
-    display: inline-block;
 }
 
 .verticalCenterDiv {

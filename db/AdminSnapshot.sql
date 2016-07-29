@@ -1,0 +1,1 @@
+select admin_assignments, last_week_logs, this_week_logs, this_week_feedback, last_week_feedback from admin_weekly_snapshot;

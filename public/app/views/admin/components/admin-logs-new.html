@@ -37,11 +37,13 @@
 
                 <select ng-disabled="disabled" class="form-control" ng-model="log.type">
                     <option value="" disabled>Type</option>
+                    <option value="build">Build</option>
                     <option value="bug">Bug</option>
                     <option value="note">Note</option>
-                    <option value="build">Build</option>
-                    <option value="general">General</option>
+                    <option value="test">Test</option>
+                    <option value="clean">Cleaning</option>
                     <option value="feature">New Feature</option>
+                    <option value="maintain">Maintain</option>
                     <option value="improvement">Improvement</option>
                     <option value="warning">Warning</option>
                 </select>
@@ -49,9 +51,9 @@
 
                 <select ng-disabled="disabled" class="form-control" ng-model="log.device">
                     <option value="" disabled>Device</option>
+                    <option value="general">General</option>
                     <option value="mobile">Mobile</option>
                     <option value="desktop">Desktop</option>
-                    <option value="general">General</option>
                     <option value="browser">Browser</option>
                 </select>
                 <p class="formError" ng-show="deviceError">{{deviceError}}</p>

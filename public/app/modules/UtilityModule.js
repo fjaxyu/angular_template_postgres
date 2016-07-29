@@ -1,3 +1,3 @@
 (function(angular){
-    angular.module('artlineup.utilities', []);
+    angular.module('utilities', []);
 })(angular);

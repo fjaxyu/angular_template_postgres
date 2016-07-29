@@ -1,6 +1,6 @@
 (function (angular) {
     angular
-        .module('artlineup.general').controller('FeedbackController', function ($scope, UtilityService, $q, $timeout, $location, $sessionStorage, $rootScope, UserService, GalleryService, ProductService) {
+        .module('general').controller('FeedbackController', function ($scope, UtilityService, $q, $timeout, $location, $sessionStorage, $rootScope, UserService, GalleryService, ProductService) {
 
 
             $scope.state = 'update';
@@ -25,12 +25,19 @@
                     $scope.state = state;
                 }
             };
-            
-            UtilityService.setPage('Art Lineup - Feedback', true).then(function (response) {
-                $scope.user = {
-                    user_name: UserService.get().name,
-                    user_email: UserService.get().email
-                };
+
+            UtilityService.setPage('Art Lineup - Feedback', false).then(function (response) {
+                if (UserService.isLoggedIn()) {
+                    var user = UserService.get();
+                    
+                    $scope.user = {
+                        user_name: user.name,
+                        user_email: user.email
+                    };
+                } else {
+                    $scope.user = {};
+                }
+
                 $scope.user.user_wants_response = false;
                 finishLoading('dashboard');
             });
@@ -75,18 +82,22 @@
 
             $scope.newFeedback = function (user) {
                 authenticated().then(function (response) {
-                        user.message_date = $scope.date;
-                        user.user_id = UserService.get().user_id;
-                        user.message_date = UtilityService.getToday();
-                        UserService.submitFeedback(user).then(function successCallback(response) {
-                            console.log(response);
-                            $scope.user = {};
-                            $scope.user.user_wants_response = false;
-                            $scope.state = 'completed';
-                        });
-                    }, function (error) {
+                    user.message_date = UtilityService.getToday();
                     
+                    if (UserService.isLoggedIn()){
+                        user.user_id = UserService.get().user_id;   
+                    }
+                    
+                    user.message_date = UtilityService.getToday();
+                    UserService.submitFeedback(user).then(function successCallback(response) {
+                        console.log(response);
+                        $scope.user = {};
+                        $scope.user.user_wants_response = false;
+                        $scope.state = 'completed';
                     });
+                }, function (error) {
+
+                });
                 if (authenticated() !== 'true') {
                     console.log('false');
                     $scope.disabled = false;

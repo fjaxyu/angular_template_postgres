@@ -1,10 +1,10 @@
 (function (angular) {
     'use strict';
     var myApp = angular.module('myApp', [
-    'artlineup.users',
-    'artlineup.general',
-    'artlineup.admin',
-    'artlineup.utilities',
+    'users',
+    'general',
+    'admin',
+    'utilities',
     'UtilityDirectives',
 //    'angular-google-analytics',
     'ngAnimate',

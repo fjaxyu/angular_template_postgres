@@ -1,21 +1,21 @@
 module.exports = function(grunt) {
     grunt.initConfig({
-        "bower-install-simple": {
+        'bower-install-simple': {
             options: {
                 color: true,
-                cwd:"public/app/"
+                cwd:'public/app/'
             },
-            "prod": {
+            'prod': {
                 options: {
                     production: true
                 }
             },
-            "dev": {
+            'dev': {
                 options: {
                     production: false
                 }
             }
         }
     });
-    grunt.loadNpmTasks("grunt-bower-install-simple");
+    grunt.loadNpmTasks('grunt-bower-install-simple');
 };

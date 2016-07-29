@@ -7,7 +7,7 @@ Angular-Template is a ready-to-use system for creating a quick [Angular](https:/
 ## Quick Start
 Simply download the files and, using terminal, navigate to the folder and use "[npm](https://www.npmjs.com) install" to add all of the necessary node modules, then add your postgres database to the pgDatabase.js and newdatabase.js files found in the routes folder, then run "node create.js" (this will create the tables for users, feedback, logs, and admins), and you're good to go. Once that has finished, enter "node server.js" and then using a web browser, navigate to "localhost:3000" and get started!
 
-##Current Features
+## Current Features
 [Amazon S3](https://aws.amazon.com/s3/) should be fairly easy to set up and store images.
 
 [Bluebird](http://bluebirdjs.com/docs/getting-started.html) promises can be used to create good flows through the routes.
@@ -18,13 +18,13 @@ Simply download the files and, using terminal, navigate to the folder and use "[
 
 Create User and Login with a redirect on pages where a user is required to be signed in.
 
-###Admin Portal
+### Admin Portal
 use: "/admin/login" to enter the admin portal. You'll have to create and insert a password into the database using 'Sha1'. bcrypt hasn't been implemented for this feature yet. Hopefully we will implement a create-admin section with an initial user for you to login and update your account information.
 
-####Admin Logs
+#### Admin Logs
 Use the admin logs section to create a list of items that you want to work on to improve and develop the application over time.
 
-####Admin Feedback
+#### Admin Feedback
 Use "/feedback" to let users submit feedback about the application. Currently, users must be logged in in-order to submit feedback. In the admin portal you'll be notified of current feedback to be addressed and you can update and write information about each of the tickets.
 
 

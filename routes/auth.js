@@ -1,9 +1,8 @@
+var logger = require('tracer').colorConsole();
 var jwt = require('jwt-simple');
-var postgres = require('./pgDatabase.js');
-var sql = require('./newdatabase.js');
-var Promise = require('promise');
-var User = sql.users;
-var utils = require('./utils.js');
+var Bluebird = require('bluebird');
+var utils = require('../lib/utils.js');
+var db = require('../config/database');
 
 
 function login(req, res) {
@@ -21,7 +20,7 @@ function login(req, res) {
         query.facebook_token = user.facebook_token;
     } else {
         res.status(500).json('no password!');
-        console.log('no password');
+        logger.log('no password');
         return;
     }
 
@@ -32,7 +31,7 @@ function login(req, res) {
         res.send(dbuser);
 
     }, function (err) {
-        console.log(err);
+        logger.log(err);
         res.status(500).send({
             error: 'Something failed!'
         });
@@ -42,15 +41,15 @@ exports.login = login;
 
 
 function validate(query) {
-    var authQuery = User.select(User.star()).where(User.email.equals(query.email)).toQuery();
-    return new Promise(function (fulfill, reject) {
-        postgres.query(authQuery, function (data, err) {
-            if (data.rows.length === 0) {
-                reject(err);    
+    return new Bluebird(function (resolve, reject) {
+        db.users.findOne({email: query.email}, function (err, data) {
+//            logger.log(data);
+            if (!data) {
+                reject(err);
             } else {
-                var isValidPassword = utils.validatePassword(query.password, data.rows[0].password);
+                var isValidPassword = utils.validatePassword(query.password, data.password);
                 if (isValidPassword === true) {
-                    fulfill(data.rows[0]);   
+                    resolve(data);
                 } else {
                     reject('invalid');
                 }
@@ -62,9 +61,8 @@ exports.validate = validate;
 
 
 function getAll(req, res) {
-    var query = User.select(User.star()).toQuery();
-    postgres.query(query, function (data) {
-        res.json(data.rows);
+    db.users.find({}, function(err, data){
+        res.json(data);
     });
 }
 exports.getAll = getAll;
@@ -79,6 +77,7 @@ function genToken(user) {
     user.expires = expires;
     return user;
 }
+
 
 function expiresIn(numDays) {
     var dateObj = new Date();

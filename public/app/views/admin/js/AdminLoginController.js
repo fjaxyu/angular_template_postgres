@@ -1,10 +1,15 @@
 (function (angular) {
     angular
-        .module('artlineup.admin').controller('AdminLoginController', function ($scope, $rootScope, AdminService) {
+        .module('admin').controller('AdminLoginController', function ($scope, $location, $window, $sessionStorage, $rootScope, AdminService) {
 
             $rootScope.pageTitle = 'Art Lineup - Admin Login';
             console.log('Admin Login Page Controller');
-
+        
+            if($sessionStorage.admin){
+                var redirectWindow = '/admin/dashboard';
+                $window.location.replace(redirectWindow);
+            }
+        
             $scope.adminLogin = function (user) {
                 $scope.successMessage = undefined;
                 $scope.errorMessage = undefined;

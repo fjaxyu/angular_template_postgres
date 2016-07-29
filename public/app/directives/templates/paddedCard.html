@@ -1,5 +1,9 @@
-<div class="card">
-    <div class="card_padding" ng-transclude>
-        
+<div class="card" style="" ng-style="{'height': height, 'background-color': background}" ng-class="{'inline-block': fit === true, 'right': float === 'right', 'card_round': round === true, 'block': fit == null}">
+    <div ng-class="{'card_padding': padding == null, 
+                   'card_padding_small': padding === 'small', 
+                   'card_padding_medium': padding === 'medium', 
+                   'block': fit == null}" ng-transclude>
+
     </div>
+    <div class="card_bottom_tip" ng-hide="bottom === false" ng-class="{'card_bottom_round': round === true}"></div>
 </div>

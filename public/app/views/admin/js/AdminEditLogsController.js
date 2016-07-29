@@ -1,6 +1,6 @@
 (function (angular) {
     angular
-        .module('artlineup.admin').controller('AdminEditLogsController', function ($scope, $q, UtilityService, $routeParams, $location, $sessionStorage, $rootScope, AdminService) {
+        .module('admin').controller('AdminEditLogsController', function ($scope, $q, UtilityService, $routeParams, $location, $rootScope, AdminService, UserService) {
 
             $rootScope.pageTitle = 'Art Lineup - Admin Dashboard';
             console.log('Admin Dashboard Page Controller');
@@ -49,11 +49,10 @@
                 });
 
                 AdminService.getAdminList().then(function (response2) {
-                    $scope.admins = jQuery.extend(true, [], response2.data);
-                    var temp = jQuery.extend(true, [], response2.data);
-                    $scope.assignments = [{
-                        username: 'none'
-                    }];
+                    console.log(response2);
+                    $scope.admins = jQuery.extend(true, [], response2);
+                    var temp = jQuery.extend(true, [], response2);
+                    $scope.assignments = [{username: 'none'}];
                     $scope.assignments = $scope.assignments.concat(temp);
 
                     $scope.setUsers();

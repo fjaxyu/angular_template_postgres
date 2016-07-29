@@ -1,6 +1,6 @@
 (function (angular) {
     angular
-        .module('artlineup.users').controller('PasswordRecoveryController', function ($scope, $timeout, UtilityService, $q, $location, $sessionStorage, $rootScope, Upload, UserService, ProductService, $routeParams) {
+        .module('users').controller('PasswordRecoveryController', function ($scope, $timeout, UtilityService, $q, $location, $sessionStorage, $rootScope, Upload, UserService, ProductService, $routeParams) {
 
             $scope.state = 'update';
 
